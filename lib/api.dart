@@ -18,11 +18,15 @@ class api {
   static String MocUmowna = "";
   static String TypLicznika = "";
   static String NREW = "";
+  static String LinkIMG = "";
 
   static String DailyUsage = "";
   static String DailyGeneration = "";
 
   static String YeasterdayDate = "";
+
+  static String MeterGenerationValue = "";
+  static String MeterUsedValue = "";
 
   static Future<bool> login(String login, String password) async {
     var url = Uri.parse(
@@ -64,6 +68,7 @@ class api {
     MocUmowna = TMeter!.findElements('MocUmowna').first.text;
     TypLicznika = TMeter!.findElements('TypLicznika').first.text;
     NREW = TMeter!.findElements('NREW').first.text;
+    LinkIMG = TMeter!.findElements('LinkIMG').first.text;
   }
 
   static getDailyStats() async {
@@ -98,6 +103,39 @@ class api {
     print(result);
     DailyGeneration = result!.text;
     print(DailyGeneration);
+  }
+
+  static getMeterValues() async {
+    getMeterGeneration();
+    getMeterUsage();
+  }
+
+  static getMeterGeneration() async {
+    var url = Uri.parse(
+        'https://elicznik.tauron-dystrybucja.pl/webservice/v3/method/GetGLastRead?NREW=${NREW}&DateTo=${YeasterdayDate}&TOKEN=${Token}');
+    print(url);
+    var response = await http.post(url);
+    var result = XmlDocument.parse(response.body)
+        .getElement('RdValues')
+        ?.getElement("RdValue")
+        ?.getElement("Value");
+    print(result);
+    MeterGenerationValue = result!.text;
+    print(MeterGenerationValue);
+  }
+
+  static getMeterUsage() async {
+    var url = Uri.parse(
+        'https://elicznik.tauron-dystrybucja.pl/webservice/v3/method/GetLastRead?NREW=${NREW}&DateTo=${YeasterdayDate}&TOKEN=${Token}');
+    print(url);
+    var response = await http.post(url);
+    var result = XmlDocument.parse(response.body)
+        .getElement('RdValues')
+        ?.getElement("RdValue")
+        ?.getElement("Value");
+    print(result);
+    MeterUsedValue = result!.text;
+    print(MeterUsedValue);
   }
 
   static String getName() {
@@ -142,5 +180,13 @@ class api {
 
   static String getNREW() {
     return NREW;
+  }
+
+  static String getMeterUsageValue() {
+    return MeterUsedValue;
+  }
+
+  static String getMeterGenerationValue() {
+    return MeterGenerationValue;
   }
 }

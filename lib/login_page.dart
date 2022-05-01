@@ -81,6 +81,7 @@ class _LoginPageState extends State<LoginPage> {
             if (token == true) {
               await api.getInfo();
               await api.getDailyStats();
+              await api.getMeterValues();
               EasyLoading.dismiss();
               Navigator.of(context).pushNamed(HomePage.tag);
             } else {

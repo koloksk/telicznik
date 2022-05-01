@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:telicznik/info_page.dart';
+import 'package:telicznik/meter_page.dart';
 import 'login_page.dart';
 import 'home_page.dart';
 import 'info_page.dart';
@@ -12,6 +13,7 @@ class MyApp extends StatelessWidget {
     LoginPage.tag: (context) => LoginPage(),
     HomePage.tag: (context) => HomePage(),
     InfoPage.tag: (context) => InfoPage(),
+    MeterPage.tag: (context) => MeterPage(),
   };
 
   @override

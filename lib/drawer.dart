@@ -4,6 +4,7 @@ import 'package:telicznik/home_page.dart';
 import 'package:telicznik/info_page.dart';
 import 'package:telicznik/login_page.dart';
 import 'package:http/http.dart' as http;
+import 'package:telicznik/meter_page.dart';
 import 'package:xml/xml.dart';
 
 class PublicDrawer extends StatefulWidget {
@@ -51,10 +52,13 @@ class _PublicDrawerState extends State<PublicDrawer> {
           ),
           ListTile(
             leading: Icon(
-              Icons.account_circle,
+              Icons.onetwothree,
               color: Color.fromARGB(255, 226, 0, 112),
             ),
-            title: Text('Profile'),
+            title: Text('Licznik'),
+            onTap: () {
+              Navigator.of(context).pushNamed(MeterPage.tag);
+            },
           ),
           ListTile(
             leading: Icon(
