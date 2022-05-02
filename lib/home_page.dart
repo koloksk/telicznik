@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:telicznik/api.dart';
+import 'package:telicznik/Api/api.dart';
 import 'package:telicznik/drawer.dart';
 import 'package:telicznik/info_page.dart';
 import 'package:telicznik/login_page.dart';
@@ -9,27 +9,36 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
+  /// Creates the stacked line chart sample.
   static String tag = 'home-page';
 
+  @override
+  _HomePage createState() => _HomePage();
+}
+
+class _HomePage extends State<HomePage> {
   // if (LoginPage.id != "NO" && LoginPage.id != null) {
   //   print(LoginPage.id);
   //   Navigator.of(context).pushNamed(HomePage.tag);
   // }
+
+  late TrackballBehavior _trackballBehavior;
+
+  @override
+  void initState() {
+    _trackballBehavior = TrackballBehavior(
+        // Enables the trackball
+        enable: true,
+        tooltipSettings: InteractiveTooltip(enable: true, color: Colors.red));
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     if (LoginPage.id == null) {
       Navigator.of(context).pushNamed(LoginPage.tag);
     }
-
-    final welcome = Padding(
-      padding: EdgeInsets.all(8.0),
-      child: Text(
-        api.getName(),
-        style: TextStyle(fontSize: 28.0, color: Colors.black),
-      ),
-    );
 
     final card1 = Container(
         //padding: EdgeInsets.all(20),
@@ -115,7 +124,7 @@ class HomePage extends StatelessWidget {
         ),
         child: SfCartesianChart(
             // Initialize category axis
-
+            trackballBehavior: _trackballBehavior,
             primaryXAxis: CategoryAxis(),
             series: <LineSeries<SalesData, String>>[
               LineSeries<SalesData, String>(
@@ -153,25 +162,52 @@ class HomePage extends StatelessWidget {
                   SalesData('30', 32),
                   SalesData('31', 40)
                 ],
+                name: 'Generacja',
                 xValueMapper: (SalesData sales, _) => sales.year,
                 yValueMapper: (SalesData sales, _) => sales.sales,
-                dataLabelSettings: DataLabelSettings(isVisible: true),
+                dataLabelSettings: DataLabelSettings(isVisible: false),
+              ),
+              LineSeries<SalesData, String>(
+                // Bind data source
+                dataSource: <SalesData>[
+                  SalesData('1', 2),
+                  SalesData('2', 34),
+                  SalesData('3', 12),
+                  SalesData('4', 345),
+                  SalesData('5', 34),
+                  SalesData('6', 1),
+                  SalesData('7', 32),
+                  SalesData('8', 34),
+                  SalesData('9', 5),
+                  SalesData('10', 123),
+                  SalesData('11', 1),
+                  SalesData('12', 23),
+                  SalesData('13', 3),
+                  SalesData('14', 34),
+                  SalesData('15', 12),
+                  SalesData('16', 4),
+                  SalesData('17', 46),
+                  SalesData('18', 7),
+                  SalesData('19', 2),
+                  SalesData('20', 4),
+                  SalesData('21', 56),
+                  SalesData('22', 23),
+                  SalesData('23', 58),
+                  SalesData('24', 2),
+                  SalesData('25', 54),
+                  SalesData('26', 6),
+                  SalesData('27', 2),
+                  SalesData('28', 63),
+                  SalesData('29', 23),
+                  SalesData('30', 54),
+                  SalesData('31', 11)
+                ],
+                name: 'Pobór',
+                xValueMapper: (SalesData sales1, _) => sales1.year,
+                yValueMapper: (SalesData sales1, _) => sales1.sales,
+                dataLabelSettings: DataLabelSettings(isVisible: false),
               )
             ]));
-    final lorem = Padding(
-      padding: EdgeInsets.all(8.0),
-      child: Text(
-        api.getCity() + " " + api.getStreet() + " " + api.getPostalCode(),
-        style: TextStyle(fontSize: 16.0, color: Colors.black),
-      ),
-    );
-    final info = Padding(
-      padding: EdgeInsets.all(8.0),
-      child: Text(
-        "Dzienne zurzycie: " + api.DailyUsage + "/" + api.DailyGeneration,
-        style: TextStyle(fontSize: 16.0, color: Colors.black),
-      ),
-    );
 
     final body = Container(
       width: MediaQuery.of(context).size.width,
@@ -198,4 +234,10 @@ class SalesData {
   SalesData(this.year, this.sales);
   final String year;
   final double sales;
+}
+
+class SalesData1 {
+  SalesData1(this.year1, this.sales1);
+  final String year1;
+  final double sales1;
 }

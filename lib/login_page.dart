@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:telicznik/home_page.dart';
-import 'package:telicznik/api.dart';
+import 'package:telicznik/Api/api.dart';
 import 'package:http/http.dart' as http;
 import 'package:xml/xml.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -76,6 +76,7 @@ class _LoginPageState extends State<LoginPage> {
           height: 42.0,
           onPressed: () async {
             EasyLoading.show();
+            api.reset();
             bool token =
                 await api.login(loginController.text, passwordController.text);
             if (token == true) {

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:telicznik/api.dart';
+import 'package:telicznik/Meters/Meter.dart';
+import 'package:telicznik/Api/api.dart';
+import 'package:telicznik/Meters/MeterManager.dart';
 import 'package:telicznik/home_page.dart';
 import 'package:telicznik/info_page.dart';
 import 'package:telicznik/login_page.dart';
@@ -26,17 +28,35 @@ class _PublicDrawerState extends State<PublicDrawer> {
           DrawerHeader(
             child: Column(children: <Widget>[
               Text(
-                api.name,
+                MeterManager.getCurrentMeter().Description,
                 style: TextStyle(
                   fontSize: 24,
                 ),
               ),
               Text(
-                api.getCity() + " " + api.getStreet() + " " + api.getNr(),
+                MeterManager.getCurrentMeter().City +
+                    " " +
+                    MeterManager.getCurrentMeter().Street +
+                    " " +
+                    MeterManager.getCurrentMeter().Nr,
                 style: TextStyle(
                   fontSize: 12,
                 ),
               ),
+              DropdownButton<String>(
+                  hint: Text("Wybierz licznik"),
+                  value: MeterManager.currentMeter,
+                  items: MeterManager.numbers.map((String value) {
+                    return new DropdownMenuItem<String>(
+                      value: value,
+                      child: new Text(value),
+                    );
+                  }).toList(),
+                  onChanged: (String? val) {
+                    setState(() {
+                      MeterManager.currentMeter = val!;
+                    });
+                  }),
             ]),
           ),
 
