@@ -14,31 +14,35 @@ class api {
   static XmlElement? TMeter;
 
   static String Token = "";
-  static String Description = "";
-  static String City = "";
-  static String Street = "";
-  static String Nr = "";
-  static String PostalCode = "";
-  static String Tarrif = "";
+  // static String Description = "";
+  // static String City = "";
+  // static String Street = "";
+  // static String Nr = "";
+  // static String PostalCode = "";
+  // static String Tarrif = "";
 
-  static String DateFrom = "";
-  static String DateTo = "";
-  static String MocUmowna = "";
-  static String TypLicznika = "";
-  static String NREW = "";
-  static String LinkIMG = "";
-  static String NrLicznika = "";
-  static String Fazowosc = "";
-  static String Hanplus = "";
+  // static String DateFrom = "";
+  // static String DateTo = "";
+  // static String MocUmowna = "";
+  // static String TypLicznika = "";
+  // static String NREW = "";
+  // static String LinkIMG = "";
+  // static String NrLicznika = "";
+  // static String Fazowosc = "";
+  // static String Hanplus = "";
 
   static String DailyUsage = "0";
   static String DailyGeneration = "0";
 
   static String YeasterdayDate = "";
 
-  static String MeterGenerationValue = "";
-  static String MeterUsedValue = "";
+  static String MeterGenerationValue1 = "";
+  static String MeterGenerationValue2 = "";
+  static String MeterUsedValue1 = "";
+  static String MeterUsedValue2 = "";
 
+  static String ApiUrl =
+      "https://elicznik.tauron-dystrybucja.pl/webservice/v3/method";
   static Future<bool> login(String login, String password) async {
     var url = Uri.parse(
         'https://elicznik.tauron-dystrybucja.pl/validatev3/appslogin?username=${login}&password=${password}');
@@ -48,7 +52,6 @@ class api {
     print('Response : ${response.body}');
     var result = XmlDocument.parse(response.body).getElement('result');
     Token = result!.findElements('message').first.text;
-    LoginPage.id = Token;
     if (Token != "NO" && Token != null) {
       print("true");
 
@@ -68,24 +71,24 @@ class api {
 
     //TMeter = result?.getElement("TMeter");
     result.forEach((element) {
-      Description = element.findElements('Description').first.text;
-      City = element.findElements('City').first.text;
-      Street = element.findElements('Street').first.text;
-      Nr = element.findElements('Nr').first.text;
+      String Description = element.findElements('Description').first.text;
+      String City = element.findElements('City').first.text;
+      String Street = element.findElements('Street').first.text;
+      String Nr = element.findElements('Nr').first.text;
       MeterManager.numbers.add(Nr);
 
-      PostalCode = element.findElements('PostalCode').first.text;
-      Tarrif = element.findElements('Tarrif').first.text;
+      String PostalCode = element.findElements('PostalCode').first.text;
+      String Tarrif = element.findElements('Tarrif').first.text;
 
-      DateFrom = element.findElements('DateFrom').first.text;
-      DateTo = element.findElements('DateTo').first.text;
-      MocUmowna = element.findElements('MocUmowna').first.text;
-      TypLicznika = element.findElements('TypLicznika').first.text;
-      NREW = element.findElements('NREW').first.text;
-      LinkIMG = element.findElements('LinkIMG').first.text;
-      NrLicznika = element.findElements('NrLicznika').first.text;
-      Fazowosc = element.findElements('Fazowosc').first.text;
-      Hanplus = element.findElements('Hanplus').first.text;
+      String DateFrom = element.findElements('DateFrom').first.text;
+      String DateTo = element.findElements('DateTo').first.text;
+      String MocUmowna = element.findElements('MocUmowna').first.text;
+      String TypLicznika = element.findElements('TypLicznika').first.text;
+      String NREW = element.findElements('NREW').first.text;
+      String LinkIMG = element.findElements('LinkIMG').first.text;
+      String NrLicznika = element.findElements('NrLicznika').first.text;
+      String Fazowosc = element.findElements('Fazowosc').first.text;
+      String Hanplus = element.findElements('Hanplus').first.text;
       print(element);
       MeterManager.meters.putIfAbsent(
           Nr,
@@ -107,11 +110,12 @@ class api {
               Hanplus,
               DailyUsage,
               DailyGeneration,
-              MeterGenerationValue,
-              MeterUsedValue));
+              MeterGenerationValue1,
+              MeterGenerationValue2,
+              MeterUsedValue1,
+              MeterUsedValue2));
     });
     MeterManager.currentMeter = MeterManager.numbers.first;
-
     //print((meters["1"] as Meter).Description);
 
     // Description = TMeter!.findElements('Description').first.text;
@@ -133,12 +137,21 @@ class api {
   }
 
   static getDailyStats() async {
-    YeasterdayDate = utils.getYeasterdayDate();
-    await getDailyUsage();
-    await getDailyGeneration();
+    try {
+      YeasterdayDate = utils.getYeasterdayDate();
+
+      MeterManager.meters.forEach((key, value) async {
+        String NREW = (value as Meter).NREW;
+        //String? Mg =
+        //String? Mu = await getMeterUsage(NREW);
+        value.MeterGenerationValue1 = await getDailyGeneration(NREW);
+        value.MeterUsedValue1 = await getDailyUsage(NREW);
+        //print("Meter usage: " + MeterManager.getMeter(value.Nr).MeterUsedValue);
+      });
+    } catch (e) {}
   }
 
-  static getDailyUsage() async {
+  static Future<String> getDailyUsage(String NREW) async {
     var url = Uri.parse(
         'https://elicznik.tauron-dystrybucja.pl/webservice/v3/method/GetReadStatD?NREW=${NREW}&DateFrom=${YeasterdayDate}&DateTo=${YeasterdayDate}&TOKEN=${Token}');
     print(url);
@@ -150,12 +163,14 @@ class api {
     print(result);
 
     if (result?.text != null) {
-      DailyUsage = result!.text;
+      return result!.text;
+    } else {
+      sendServerError();
+      return "0";
     }
-    print(DailyUsage);
   }
 
-  static getDailyGeneration() async {
+  static Future<String> getDailyGeneration(String NREW) async {
     var url = Uri.parse(
         'https://elicznik.tauron-dystrybucja.pl/webservice/v3/method/GetGStatistic?NREW=${NREW}&DateFrom=${YeasterdayDate}&DateTo=${YeasterdayDate}&TOKEN=${Token}');
     print(url);
@@ -166,11 +181,11 @@ class api {
         ?.getElement("Sum");
     print(result);
     if (result?.text != null) {
-      DailyGeneration = result!.text;
+      return result!.text;
     } else {
       sendServerError();
+      return "0";
     }
-    print(DailyGeneration);
   }
 
   static sendServerError() {
@@ -184,82 +199,99 @@ class api {
         fontSize: 16.0);
   }
 
-  static getMeterValues() async {
-    getMeterGeneration();
-    getMeterUsage();
+  static getMeterValues() {
+    MeterManager.meters.forEach((key, value) async {
+      String NREW = (value as Meter).NREW;
+      //String? Mg =
+      //String? Mu = await getMeterUsage(NREW);
+      value.MeterGenerationValue1 = await getMeterGeneration(NREW);
+      value.MeterUsedValue1 = await getMeterUsage(NREW);
+      //print("Meter usage: " + MeterManager.getMeter(value.Nr).MeterUsedValue);
+    });
   }
 
-  static getMeterGeneration() async {
+  static Future<String> getMeterGeneration(String NREW) async {
     var url = Uri.parse(
         'https://elicznik.tauron-dystrybucja.pl/webservice/v3/method/GetGLastRead?NREW=${NREW}&DateTo=${YeasterdayDate}&TOKEN=${Token}');
-    print(url);
+    //print(url);
     var response = await http.post(url);
-    var result = XmlDocument.parse(response.body)
-        .getElement('RdValues')
-        ?.getElement("RdValue")
-        ?.getElement("Value");
-    print(result);
+    XmlDocument? xml = XmlDocument.parse(response.body);
+    var result =
+        xml.getElement("RdValues")?.getElement("RdValue")?.getElement("Value");
     if (result?.text != null) {
-      MeterGenerationValue = result!.text;
+      return result!.text;
     } else {
       sendServerError();
-      print(MeterGenerationValue);
+      return "";
     }
   }
 
-  static getMeterUsage() async {
+  static Future<String> getMeterUsage(String NREW) async {
     var url = Uri.parse(
         'https://elicznik.tauron-dystrybucja.pl/webservice/v3/method/GetLastRead?NREW=${NREW}&DateTo=${YeasterdayDate}&TOKEN=${Token}');
-    print(url);
+    //print(url);
     var response = await http.post(url);
     var result = XmlDocument.parse(response.body)
         .getElement('RdValues')
         ?.getElement("RdValue")
         ?.getElement("Value");
-    print(result);
+    //print(result);
+    //print(MeterUsedValue);
     if (result?.text != null) {
-      MeterUsedValue = result!.text;
+      return result!.text;
     } else {
       sendServerError();
+      return "";
     }
-    print(MeterUsedValue);
   }
 
-  static reset() {
-    MeterManager.numbers.clear();
-    MeterManager.meters.clear();
-    Token = "";
-    Description = "";
-    City = "";
-    Street = "";
-    Nr = "";
-    PostalCode = "";
-    Tarrif = "";
+  static getMonthlyUsage(String NREW) async {
+    var url = Uri.parse(
+        'https://elicznik.tauron-dystrybucja.pl/webservice/v3/method/GetStatistic?NREW=${NREW}&DateFrom=2022-01-01&DateTo=2022-12-01&TOKEN=${Token}&Stat=M');
+    //print(url);
+    var response = await http.post(url);
+    var result = XmlDocument.parse(response.body).findAllElements("Stat");
+    //print(result);
+    //print(MeterUsedValue);
+    result.forEach((element) {
+      String day = element.getElement("Period")!.text;
+      String sum = element.getElement("Sum")!.text;
 
-    DateFrom = "";
-    DateTo = "";
-    MocUmowna = "";
-    TypLicznika = "";
-    NREW = "";
-    LinkIMG = "";
-    NrLicznika = "";
-    Fazowosc = "";
-    Hanplus = "";
-
-    DailyUsage = "0";
-    DailyGeneration = "0";
-
-    YeasterdayDate = "";
-
-    MeterGenerationValue = "";
-    MeterUsedValue = "";
+      MeterManager.getCurrentMeter().MonthlyUsage.putIfAbsent(
+          MeterManager.getCurrentMeter().MonthlyUsage.length + 1, () => sum);
+    });
   }
 
-  static String getMeterUsageValue() {
-    return MeterUsedValue;
+  static setToken(String token) {
+    Token = token;
   }
+  // static reset() {
+  //   MeterManager.numbers.clear();
+  //   MeterManager.meters.clear();
+  //   Token = "";
+  //   Description = "";
+  //   City = "";
+  //   Street = "";
+  //   Nr = "";
+  //   PostalCode = "";
+  //   Tarrif = "";
 
-  static String getMeterGenerationValue() {
-    return MeterGenerationValue;
-  }
+  //   DateFrom = "";
+  //   DateTo = "";
+  //   MocUmowna = "";
+  //   TypLicznika = "";
+  //   //NREW = "";
+  //   LinkIMG = "";
+  //   NrLicznika = "";
+  //   Fazowosc = "";
+  //   Hanplus = "";
+
+  //   DailyUsage = "0";
+  //   DailyGeneration = "0";
+
+  //   YeasterdayDate = "";
+
+  //   MeterGenerationValue1 = "";
+  //   MeterUsedValue1 = "";
+  // }
 }

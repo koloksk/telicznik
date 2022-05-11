@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:telicznik/Api/api.dart';
+import 'package:telicznik/charts/chart.dart';
 import 'package:telicznik/drawer.dart';
-import 'package:telicznik/info_page.dart';
 import 'package:telicznik/login_page.dart';
-import 'package:http/http.dart' as http;
-import 'package:xml/xml.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
@@ -36,7 +33,7 @@ class _HomePage extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    if (LoginPage.id == null) {
+    if (api.Token == null) {
       Navigator.of(context).pushNamed(LoginPage.tag);
     }
 
@@ -122,92 +119,7 @@ class _HomePage extends State<HomePage> {
             ),
           ],
         ),
-        child: SfCartesianChart(
-            // Initialize category axis
-            trackballBehavior: _trackballBehavior,
-            primaryXAxis: CategoryAxis(),
-            series: <LineSeries<SalesData, String>>[
-              LineSeries<SalesData, String>(
-                // Bind data source
-                dataSource: <SalesData>[
-                  SalesData('1', 35),
-                  SalesData('2', 28),
-                  SalesData('3', 34),
-                  SalesData('4', 32),
-                  SalesData('5', 40),
-                  SalesData('6', 35),
-                  SalesData('7', 28),
-                  SalesData('8', 34),
-                  SalesData('9', 32),
-                  SalesData('10', 40),
-                  SalesData('11', 35),
-                  SalesData('12', 28),
-                  SalesData('13', 34),
-                  SalesData('14', 32),
-                  SalesData('15', 40),
-                  SalesData('16', 35),
-                  SalesData('17', 28),
-                  SalesData('18', 34),
-                  SalesData('19', 32),
-                  SalesData('20', 40),
-                  SalesData('21', 40),
-                  SalesData('22', 35),
-                  SalesData('23', 28),
-                  SalesData('24', 34),
-                  SalesData('25', 32),
-                  SalesData('26', 40),
-                  SalesData('27', 35),
-                  SalesData('28', 28),
-                  SalesData('29', 34),
-                  SalesData('30', 32),
-                  SalesData('31', 40)
-                ],
-                name: 'Generacja',
-                xValueMapper: (SalesData sales, _) => sales.year,
-                yValueMapper: (SalesData sales, _) => sales.sales,
-                dataLabelSettings: DataLabelSettings(isVisible: false),
-              ),
-              LineSeries<SalesData, String>(
-                // Bind data source
-                dataSource: <SalesData>[
-                  SalesData('1', 2),
-                  SalesData('2', 34),
-                  SalesData('3', 12),
-                  SalesData('4', 345),
-                  SalesData('5', 34),
-                  SalesData('6', 1),
-                  SalesData('7', 32),
-                  SalesData('8', 34),
-                  SalesData('9', 5),
-                  SalesData('10', 123),
-                  SalesData('11', 1),
-                  SalesData('12', 23),
-                  SalesData('13', 3),
-                  SalesData('14', 34),
-                  SalesData('15', 12),
-                  SalesData('16', 4),
-                  SalesData('17', 46),
-                  SalesData('18', 7),
-                  SalesData('19', 2),
-                  SalesData('20', 4),
-                  SalesData('21', 56),
-                  SalesData('22', 23),
-                  SalesData('23', 58),
-                  SalesData('24', 2),
-                  SalesData('25', 54),
-                  SalesData('26', 6),
-                  SalesData('27', 2),
-                  SalesData('28', 63),
-                  SalesData('29', 23),
-                  SalesData('30', 54),
-                  SalesData('31', 11)
-                ],
-                name: 'Pobór',
-                xValueMapper: (SalesData sales1, _) => sales1.year,
-                yValueMapper: (SalesData sales1, _) => sales1.sales,
-                dataLabelSettings: DataLabelSettings(isVisible: false),
-              )
-            ]));
+        child: PointsLineChart.withSampleData());
 
     final body = Container(
       width: MediaQuery.of(context).size.width,

@@ -1,7 +1,4 @@
-import 'package:telicznik/Api/api.dart';
-
 import 'Meter.dart';
-import 'package:telicznik/Api/api.dart';
 
 class MeterManager {
   static Map meters = new Map();
@@ -14,5 +11,11 @@ class MeterManager {
 
   static Meter getCurrentMeter() {
     return meters[currentMeter];
+  }
+
+  static reset() {
+    meters.clear();
+    numbers.clear();
+    currentMeter = "";
   }
 }

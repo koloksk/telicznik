@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:telicznik/Meters/Meter.dart';
-import 'package:telicznik/Api/api.dart';
 import 'package:telicznik/Meters/MeterManager.dart';
 import 'package:telicznik/home_page.dart';
 import 'package:telicznik/info_page.dart';
 import 'package:telicznik/login_page.dart';
-import 'package:http/http.dart' as http;
 import 'package:telicznik/meter_page.dart';
-import 'package:xml/xml.dart';
+import 'package:telicznik/moc_page.dart';
 
 class PublicDrawer extends StatefulWidget {
   @override
@@ -78,6 +75,16 @@ class _PublicDrawerState extends State<PublicDrawer> {
             title: Text('Licznik'),
             onTap: () {
               Navigator.of(context).pushNamed(MeterPage.tag);
+            },
+          ),
+          ListTile(
+            leading: Icon(
+              Icons.power,
+              color: Color.fromARGB(255, 226, 0, 112),
+            ),
+            title: Text('Moc'),
+            onTap: () {
+              Navigator.of(context).pushNamed(MocPage.tag);
             },
           ),
           ListTile(

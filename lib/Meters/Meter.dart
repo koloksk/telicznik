@@ -18,8 +18,10 @@ class Meter {
       String Hanplus,
       String DailyUsage,
       String DailyGeneration,
-      String MeterGenerationValue,
-      String MeterUsedValue) {
+      String MeterGenerationValue1,
+      String MeterGenerationValue2,
+      String MeterUsedValue1,
+      String MeterUsedValue2) {
     this.Description = Description;
     this.City = City;
     this.Street = Street;
@@ -37,8 +39,10 @@ class Meter {
     this.Hanplus = Hanplus;
     this.DailyUsage = DailyUsage;
     this.DailyGeneration = DailyGeneration;
-    this.MeterGenerationValue = MeterGenerationValue;
-    this.MeterUsedValue = MeterUsedValue;
+    this.MeterGenerationValue1 = MeterGenerationValue1;
+    this.MeterGenerationValue2 = MeterGenerationValue2;
+    this.MeterUsedValue1 = MeterUsedValue1;
+    this.MeterUsedValue2 = MeterUsedValue2;
   }
 
   late String Description;
@@ -61,8 +65,13 @@ class Meter {
   late String DailyUsage;
   late String DailyGeneration;
 
-  late String MeterGenerationValue;
-  late String MeterUsedValue;
+  late String MeterGenerationValue1;
+  late String MeterGenerationValue2;
+  late String MeterUsedValue1;
+  late String MeterUsedValue2;
+
+  late Map MonthlyUsage = new Map();
+
   String getDescription() {
     return Description;
   }

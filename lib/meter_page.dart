@@ -208,10 +208,19 @@ class MeterPage extends StatelessWidget {
                         fontSize: 16.0, color: Color.fromARGB(255, 0, 0, 0)),
                   ),
                   SizedBox(height: 10),
-                  if (MeterManager.getCurrentMeter().MeterUsedValue != "") ...[
+                  if (MeterManager.getCurrentMeter().MeterUsedValue1 != "") ...[
                     SevenSegmentDisplay(
-                      value: MeterManager.getCurrentMeter().MeterUsedValue,
-                      size: 3.0,
+                      value: MeterManager.getCurrentMeter().MeterUsedValue1,
+                      size: 2.5,
+                      backgroundColor: Colors.transparent,
+                      segmentStyle: HexSegmentStyle(
+                        disabledColor: Colors.green.withOpacity(0),
+                      ),
+                    ),
+                    SizedBox(height: 10),
+                    SevenSegmentDisplay(
+                      value: "-",
+                      size: 2.5,
                       backgroundColor: Colors.transparent,
                       segmentStyle: HexSegmentStyle(
                         disabledColor: Colors.green.withOpacity(0),
@@ -254,10 +263,19 @@ class MeterPage extends StatelessWidget {
                   fontSize: 16.0, color: Color.fromARGB(255, 0, 0, 0)),
             ),
             SizedBox(height: 10),
-            if (MeterManager.getCurrentMeter().MeterGenerationValue != "") ...[
+            if (MeterManager.getCurrentMeter().MeterGenerationValue1 != "") ...[
               SevenSegmentDisplay(
-                value: MeterManager.getCurrentMeter().MeterGenerationValue,
-                size: 3.0,
+                value: MeterManager.getCurrentMeter().MeterGenerationValue1,
+                size: 2.5,
+                backgroundColor: Colors.transparent,
+                segmentStyle: HexSegmentStyle(
+                  disabledColor: Colors.green.withOpacity(0),
+                ),
+              ),
+              SizedBox(height: 10),
+              SevenSegmentDisplay(
+                value: "-",
+                size: 2.5,
                 backgroundColor: Colors.transparent,
                 segmentStyle: HexSegmentStyle(
                   disabledColor: Colors.green.withOpacity(0),

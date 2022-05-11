@@ -1,10 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:telicznik/drawer.dart';
-import 'package:telicznik/home_page.dart';
-import 'package:telicznik/login_page.dart';
-
-import 'package:http/http.dart' as http;
-import 'package:xml/xml.dart';
 
 class InfoPage extends StatelessWidget {
   static String tag = 'info-page';
