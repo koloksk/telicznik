@@ -1,10 +1,14 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:telicznik/Meters/MeterManager.dart';
-import 'package:telicznik/home_page.dart';
-import 'package:telicznik/info_page.dart';
-import 'package:telicznik/login_page.dart';
-import 'package:telicznik/meter_page.dart';
-import 'package:telicznik/moc_page.dart';
+import 'package:telicznik/screens/charts_page.dart';
+import 'package:telicznik/screens/home_page.dart';
+import 'package:telicznik/screens/info_page.dart';
+import 'package:telicznik/screens/login_page.dart';
+import 'package:telicznik/screens/meter_page.dart';
+import 'package:telicznik/screens/moc_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class PublicDrawer extends StatefulWidget {
   @override
@@ -42,9 +46,10 @@ class _PublicDrawerState extends State<PublicDrawer> {
               ),
               DropdownButton<String>(
                   hint: Text("Wybierz licznik"),
-                  value: MeterManager.currentMeter,
-                  items: MeterManager.numbers.map((String value) {
-                    return new DropdownMenuItem<String>(
+                  value: MeterManager.getCurrentMeter().Nr,
+                  items: MeterManager.getMeterListName().map((String value) {
+                    print(value);
+                    return DropdownMenuItem<String>(
                       value: value,
                       child: new Text(value),
                     );
@@ -89,6 +94,16 @@ class _PublicDrawerState extends State<PublicDrawer> {
           ),
           ListTile(
             leading: Icon(
+              Icons.area_chart,
+              color: Color.fromARGB(255, 226, 0, 112),
+            ),
+            title: Text('Wykresy'),
+            onTap: () {
+              Navigator.of(context).pushNamed(ChartsPage.tag);
+            },
+          ),
+          ListTile(
+            leading: Icon(
               Icons.info,
               color: Color.fromARGB(255, 226, 0, 112),
             ),
@@ -105,7 +120,8 @@ class _PublicDrawerState extends State<PublicDrawer> {
               ListTile(
                 leading: Icon(Icons.logout),
                 title: Text('Wyloguj'),
-                onTap: () {
+                onTap: () async {
+                  MeterManager.reset();
                   Navigator.of(context).pushNamed(LoginPage.tag);
                 },
               ),

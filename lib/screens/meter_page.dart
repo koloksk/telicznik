@@ -3,7 +3,7 @@ import 'package:telicznik/Meters/MeterManager.dart';
 import 'package:telicznik/drawer.dart';
 import 'package:segment_display/segment_display.dart';
 
-import 'Meters/Meter.dart';
+import '../Meters/Meter.dart';
 
 class MeterPage extends StatelessWidget {
   static String tag = 'meter-page';
@@ -17,7 +17,7 @@ class MeterPage extends StatelessWidget {
       width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
-        color: Colors.white,
+        color: Theme.of(context).primaryColor,
         boxShadow: [
           BoxShadow(
             offset: Offset(0, 4),
@@ -38,7 +38,7 @@ class MeterPage extends StatelessWidget {
               //width: MediaQuery.of(context).size.width / 2 - 20,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
-                color: Colors.white,
+                color: Theme.of(context).primaryColor,
                 boxShadow: [
                   BoxShadow(
                     offset: Offset(0, 4),
@@ -53,14 +53,12 @@ class MeterPage extends StatelessWidget {
                 children: [
                   Text(
                     "Typ Licznika",
-                    style: TextStyle(
-                        fontSize: 16.0, color: Color.fromARGB(255, 0, 0, 0)),
+                    style: TextStyle(fontSize: 16.0),
                   ),
                   SizedBox(height: 10),
                   Text(
                     MeterManager.getCurrentMeter().TypLicznika,
-                    style: TextStyle(
-                        fontSize: 25.0, color: Color.fromARGB(255, 0, 0, 0)),
+                    style: TextStyle(fontSize: 25.0),
                   ),
                 ],
               ))),
@@ -72,7 +70,7 @@ class MeterPage extends StatelessWidget {
         //width: body.size.width / 2 - 20,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
-          color: Colors.white,
+          color: Theme.of(context).primaryColor,
           boxShadow: [
             BoxShadow(
               offset: Offset(0, 4),
@@ -88,14 +86,12 @@ class MeterPage extends StatelessWidget {
           children: [
             Text(
               "Fazowość",
-              style: TextStyle(
-                  fontSize: 16.0, color: Color.fromARGB(255, 0, 0, 0)),
+              style: TextStyle(fontSize: 16.0),
             ),
             SizedBox(height: 10),
             Text(
               MeterManager.getCurrentMeter().Fazowosc,
-              style: TextStyle(
-                  fontSize: 25.0, color: Color.fromARGB(255, 0, 0, 0)),
+              style: TextStyle(fontSize: 25.0),
             ),
           ],
         ),
@@ -109,7 +105,7 @@ class MeterPage extends StatelessWidget {
               //width: MediaQuery.of(context).size.width / 2 - 20,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
-                color: Colors.white,
+                color: Theme.of(context).primaryColor,
                 boxShadow: [
                   BoxShadow(
                     offset: Offset(0, 4),
@@ -125,13 +121,13 @@ class MeterPage extends StatelessWidget {
                   Text(
                     "Nr Licznika",
                     style: TextStyle(
-                        fontSize: 16.0, color: Color.fromARGB(255, 0, 0, 0)),
+                      fontSize: 16.0,
+                    ),
                   ),
                   SizedBox(height: 10),
                   Text(
                     MeterManager.getCurrentMeter().NrLicznika,
-                    style: TextStyle(
-                        fontSize: 25.0, color: Color.fromARGB(255, 0, 0, 0)),
+                    style: TextStyle(fontSize: 25.0),
                   ),
                 ],
               ))),
@@ -143,7 +139,7 @@ class MeterPage extends StatelessWidget {
         //width: body.size.width / 2 - 20,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
-          color: Colors.white,
+          color: Theme.of(context).primaryColor,
           boxShadow: [
             BoxShadow(
               offset: Offset(0, 4),
@@ -159,21 +155,18 @@ class MeterPage extends StatelessWidget {
           children: [
             Text(
               "HanPlus",
-              style: TextStyle(
-                  fontSize: 16.0, color: Color.fromARGB(255, 0, 0, 0)),
+              style: TextStyle(fontSize: 16.0),
             ),
             SizedBox(height: 10),
             if (MeterManager.getCurrentMeter().Hanplus == "T") ...[
               Text(
                 "Tak",
-                style: TextStyle(
-                    fontSize: 25.0, color: Color.fromARGB(255, 0, 0, 0)),
+                style: TextStyle(fontSize: 25.0),
               ),
             ] else ...[
               Text(
                 "Nie",
-                style: TextStyle(
-                    fontSize: 25.0, color: Color.fromARGB(255, 0, 0, 0)),
+                style: TextStyle(fontSize: 25.0),
               ),
             ]
           ],
@@ -189,7 +182,7 @@ class MeterPage extends StatelessWidget {
               //width: MediaQuery.of(context).size.width / 2 - 20,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
-                color: Colors.white,
+                color: Theme.of(context).primaryColor,
                 boxShadow: [
                   BoxShadow(
                     offset: Offset(0, 4),
@@ -204,8 +197,7 @@ class MeterPage extends StatelessWidget {
                 children: [
                   Text(
                     "Pobór",
-                    style: TextStyle(
-                        fontSize: 16.0, color: Color.fromARGB(255, 0, 0, 0)),
+                    style: TextStyle(fontSize: 16.0),
                   ),
                   SizedBox(height: 10),
                   if (MeterManager.getCurrentMeter().MeterUsedValue1 != "") ...[
@@ -229,8 +221,7 @@ class MeterPage extends StatelessWidget {
                   ] else ...[
                     Text(
                       "-",
-                      style: TextStyle(
-                          fontSize: 30.0, color: Color.fromARGB(255, 0, 0, 0)),
+                      style: TextStyle(fontSize: 30.0),
                     ),
                   ]
                 ],
@@ -243,7 +234,7 @@ class MeterPage extends StatelessWidget {
         //width: body.size.width / 2 - 20,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
-          color: Colors.white,
+          color: Theme.of(context).primaryColor,
           boxShadow: [
             BoxShadow(
               offset: Offset(0, 4),
@@ -259,8 +250,7 @@ class MeterPage extends StatelessWidget {
           children: [
             Text(
               "Generacja",
-              style: TextStyle(
-                  fontSize: 16.0, color: Color.fromARGB(255, 0, 0, 0)),
+              style: TextStyle(fontSize: 16.0),
             ),
             SizedBox(height: 10),
             if (MeterManager.getCurrentMeter().MeterGenerationValue1 != "") ...[
@@ -295,7 +285,7 @@ class MeterPage extends StatelessWidget {
     final body = Container(
       width: MediaQuery.of(context).size.width,
       padding: EdgeInsets.all(25.0),
-      color: Color(0xFFFEFEFE),
+      //color: Color(0xFFFEFEFE),
       child: Column(
         children: <Widget>[
           meterStats,

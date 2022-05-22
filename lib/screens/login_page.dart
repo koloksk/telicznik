@@ -1,12 +1,18 @@
+import 'dart:async';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:telicznik/Api/DataManager.dart';
 import 'package:telicznik/Meters/MeterManager.dart';
-import 'package:telicznik/home_page.dart';
+import 'package:telicznik/screens/home_page.dart';
 import 'package:telicznik/Api/api.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+//BLOKADA PRZYCISKOW
+//ZMIANA KONTENERA STATYSTYK W HOME ZEBY SIE NIE RUSZAL
 
 class LoginPage extends StatefulWidget {
   static String tag = 'login-page';
@@ -21,7 +27,7 @@ class _LoginPageState extends State<LoginPage> {
   // void initState() {
   //   _isButtonDisabled = false;
   // }
-
+  bool loginbuttonenabled = true;
   _launchURL() async {
     const url = 'https://logowanie.tauron-dystrybucja.pl/remind_password';
     if (await canLaunch(url)) {
@@ -31,10 +37,28 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
+  static Future<bool> autoLogIn(BuildContext context) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? savedtoken = prefs.getString('token');
+    if (savedtoken != null && savedtoken != "") {
+      print("Zapisany token: " + savedtoken);
+      api.Token = savedtoken;
+
+      await api.getInfo();
+
+      Navigator.of(context).pushNamed(HomePage.tag);
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   static String? token = null;
 
   @override
   Widget build(BuildContext context) {
+    autoLogIn(context);
+
     final TextEditingController loginController = new TextEditingController();
     final TextEditingController passwordController =
         new TextEditingController();
@@ -53,6 +77,7 @@ class _LoginPageState extends State<LoginPage> {
       autofocus: false,
       autovalidateMode: AutovalidateMode.always,
       //initialValue: 'alucard@gmail.com',
+      maxLength: 30,
       decoration: InputDecoration(
         hintText: 'Email',
         contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
@@ -81,26 +106,17 @@ class _LoginPageState extends State<LoginPage> {
           minWidth: 200.0,
           height: 42.0,
           onPressed: () async {
-            ///TODO: Włączanie i wyłączanie przycisku po wciśnięciu
-            Fluttertoast.cancel(); //Chwilowe rozwiązanie spamiących komunikatów
-            EasyLoading.show();
-            MeterManager.reset();
-            bool token =
-                await api.login(loginController.text, passwordController.text);
-            if (token == true) {
-              try {
-                await api.getInfo();
-                await api.getDailyStats();
-                await api.getMeterValues();
-                await api.getMonthlyUsage(MeterManager.getCurrentMeter().NREW);
+            if (loginbuttonenabled) {
+              loginbuttonenabled = false;
+              EasyLoading.show();
+              bool token = await api.login(
+                  loginController.text, passwordController.text);
+              if (await token == true) {
                 EasyLoading.dismiss();
                 Navigator.of(context).pushNamed(HomePage.tag);
-              } catch (e) {
-                log(e.toString());
-              }
-            } else {
-              try {
+              } else {
                 EasyLoading.dismiss();
+
                 Fluttertoast.showToast(
                     msg: "Login lub hasło jest nieprawidłowe",
                     toastLength: Toast.LENGTH_SHORT,
@@ -109,9 +125,11 @@ class _LoginPageState extends State<LoginPage> {
                     backgroundColor: Colors.red,
                     textColor: Colors.white,
                     fontSize: 16.0);
-              } catch (e) {
-                log(e.toString());
               }
+
+              Timer(Duration(seconds: 5), () {
+                loginbuttonenabled = true;
+              });
             }
           },
           color: Colors.lightBlueAccent,

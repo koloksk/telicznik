@@ -16,12 +16,11 @@ class Meter {
       String NrLicznika,
       String Fazowosc,
       String Hanplus,
-      String DailyUsage,
-      String DailyGeneration,
       String MeterGenerationValue1,
       String MeterGenerationValue2,
       String MeterUsedValue1,
-      String MeterUsedValue2) {
+      String MeterUsedValue2,
+      String lastupdate) {
     this.Description = Description;
     this.City = City;
     this.Street = Street;
@@ -37,12 +36,12 @@ class Meter {
     this.NrLicznika = NrLicznika;
     this.Fazowosc = Fazowosc;
     this.Hanplus = Hanplus;
-    this.DailyUsage = DailyUsage;
-    this.DailyGeneration = DailyGeneration;
     this.MeterGenerationValue1 = MeterGenerationValue1;
     this.MeterGenerationValue2 = MeterGenerationValue2;
     this.MeterUsedValue1 = MeterUsedValue1;
     this.MeterUsedValue2 = MeterUsedValue2;
+
+    this.lastupdate = lastupdate;
   }
 
   late String Description;
@@ -62,17 +61,76 @@ class Meter {
   late String Fazowosc;
   late String Hanplus;
 
-  late String DailyUsage;
-  late String DailyGeneration;
+  late List DailyUsage = [];
+  late List DailyGeneration = [];
 
   late String MeterGenerationValue1;
-  late String MeterGenerationValue2;
+  late String MeterGenerationValue2 = "0";
   late String MeterUsedValue1;
-  late String MeterUsedValue2;
+  late String MeterUsedValue2 = "0";
 
-  late Map MonthlyUsage = new Map();
+  late String lastupdate;
 
-  String getDescription() {
-    return Description;
+  late List MonthlyUsage = [];
+  late List MonthlyGeneration = [];
+
+  late List HourlyUsage = [];
+  late List HourlyGeneration = [];
+
+  Meter.fromJson(Map json)
+      : Description = json['Description'],
+        City = json['City'],
+        Street = json['Street'],
+        Nr = json['Nr'],
+        PostalCode = json['PostalCode'],
+        Tarrif = json['Tarrif'],
+        DateFrom = json['DateFrom'],
+        DateTo = json['DateTo'],
+        MocUmowna = json['MocUmowna'],
+        TypLicznika = json['TypLicznika'],
+        NREW = json['NREW'],
+        LinkIMG = json['LinkIMG'],
+        NrLicznika = json['NrLicznika'],
+        Fazowosc = json['Fazowosc'],
+        Hanplus = json['Hanplus'],
+        DailyUsage = json['DailyUsage'],
+        DailyGeneration = json['DailyGeneration'],
+        MeterGenerationValue1 = json['MeterGenerationValue1'],
+        MeterGenerationValue2 = json['MeterGenerationValue2'],
+        MeterUsedValue1 = json['MeterUsedValue1'],
+        lastupdate = json['lastupdate'],
+        HourlyUsage = json['HourlyUsage'],
+        HourlyGeneration = json['HourlyGeneration'],
+        MonthlyUsage = json['MonthlyUsage'],
+        MonthlyGeneration = json['MonthlyGeneration'];
+
+  Map<String, dynamic> toJson() {
+    return {
+      'Description': Description,
+      'City': City,
+      'Street': Street,
+      'Nr': Nr,
+      'PostalCode': PostalCode,
+      'Tarrif': Tarrif,
+      'DateFrom': DateFrom,
+      'DateTo': DateTo,
+      'MocUmowna': MocUmowna,
+      'TypLicznika': TypLicznika,
+      'NREW': NREW,
+      'LinkIMG': LinkIMG,
+      'NrLicznika': NrLicznika,
+      'Fazowosc': Fazowosc,
+      'Hanplus': Hanplus,
+      'DailyUsage': DailyUsage,
+      'DailyGeneration': DailyGeneration,
+      'MeterGenerationValue1': MeterGenerationValue1,
+      'MeterGenerationValue2': MeterGenerationValue2,
+      'MeterUsedValue1': MeterUsedValue1,
+      'lastupdate': lastupdate,
+      'HourlyUsage': HourlyUsage,
+      'HourlyGeneration': HourlyGeneration,
+      'MonthlyUsage': MonthlyUsage,
+      'MonthlyGeneration': MonthlyGeneration,
+    };
   }
 }

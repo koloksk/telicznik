@@ -16,7 +16,7 @@ class MocPage extends StatelessWidget {
               //width: MediaQuery.of(context).size.width / 2 - 20,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
-                color: Colors.white,
+                color: Theme.of(context).primaryColor,
                 boxShadow: [
                   BoxShadow(
                     offset: Offset(0, 4),
@@ -31,14 +31,12 @@ class MocPage extends StatelessWidget {
                 children: [
                   Text(
                     "Moc Umowna",
-                    style: TextStyle(
-                        fontSize: 16.0, color: Color.fromARGB(255, 0, 0, 0)),
+                    style: TextStyle(fontSize: 16.0),
                   ),
                   SizedBox(height: 10),
                   Text(
                     MeterManager.getCurrentMeter().MocUmowna + " KW",
-                    style: TextStyle(
-                        fontSize: 25.0, color: Color.fromARGB(255, 0, 0, 0)),
+                    style: TextStyle(fontSize: 25.0),
                   ),
                 ],
               ))),
@@ -50,7 +48,7 @@ class MocPage extends StatelessWidget {
         //width: body.size.width / 2 - 20,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
-          color: Colors.white,
+          color: Theme.of(context).primaryColor,
           boxShadow: [
             BoxShadow(
               offset: Offset(0, 4),
@@ -66,14 +64,12 @@ class MocPage extends StatelessWidget {
           children: [
             Text(
               "MAX w tym tyg.",
-              style: TextStyle(
-                  fontSize: 16.0, color: Color.fromARGB(255, 0, 0, 0)),
+              style: TextStyle(fontSize: 16.0),
             ),
             SizedBox(height: 10),
             Text(
               "-",
-              style: TextStyle(
-                  fontSize: 25.0, color: Color.fromARGB(255, 0, 0, 0)),
+              style: TextStyle(fontSize: 25.0),
             ),
           ],
         ),
@@ -83,7 +79,7 @@ class MocPage extends StatelessWidget {
     final body = Container(
       width: MediaQuery.of(context).size.width,
       padding: EdgeInsets.all(25.0),
-      color: Color(0xFFFEFEFE),
+      //color: Theme.of(context).backgroundColor,
       child: Column(
         children: <Widget>[
           info,
