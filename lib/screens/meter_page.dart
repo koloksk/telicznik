@@ -3,7 +3,7 @@ import 'package:telicznik/Meters/MeterManager.dart';
 import 'package:telicznik/drawer.dart';
 import 'package:segment_display/segment_display.dart';
 
-import '../Meters/Meter.dart';
+import '../appbar.dart';
 
 class MeterPage extends StatelessWidget {
   static String tag = 'meter-page';
@@ -20,9 +20,9 @@ class MeterPage extends StatelessWidget {
         color: Theme.of(context).primaryColor,
         boxShadow: [
           BoxShadow(
-            offset: Offset(0, 4),
+            offset: const Offset(0, 4),
             blurRadius: 30,
-            color: Color.fromARGB(255, 236, 0, 217).withOpacity(.16),
+            color: const Color.fromARGB(255, 236, 0, 217).withOpacity(.16),
           ),
         ],
       ),
@@ -41,9 +41,10 @@ class MeterPage extends StatelessWidget {
                 color: Theme.of(context).primaryColor,
                 boxShadow: [
                   BoxShadow(
-                    offset: Offset(0, 4),
+                    offset: const Offset(0, 4),
                     blurRadius: 30,
-                    color: Color.fromARGB(255, 236, 0, 217).withOpacity(.16),
+                    color:
+                        const Color.fromARGB(255, 236, 0, 217).withOpacity(.16),
                   ),
                 ],
               ),
@@ -51,18 +52,18 @@ class MeterPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Text(
+                  const Text(
                     "Typ Licznika",
                     style: TextStyle(fontSize: 16.0),
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   Text(
                     MeterManager.getCurrentMeter().TypLicznika,
-                    style: TextStyle(fontSize: 25.0),
+                    style: const TextStyle(fontSize: 25.0),
                   ),
                 ],
               ))),
-      SizedBox(width: 10),
+      const SizedBox(width: 10),
       Expanded(
           child: Container(
         //padding: EdgeInsets.all(20),
@@ -73,9 +74,9 @@ class MeterPage extends StatelessWidget {
           color: Theme.of(context).primaryColor,
           boxShadow: [
             BoxShadow(
-              offset: Offset(0, 4),
+              offset: const Offset(0, 4),
               blurRadius: 30,
-              color: Color.fromARGB(255, 236, 0, 217).withOpacity(.16),
+              color: const Color.fromARGB(255, 236, 0, 217).withOpacity(.16),
             ),
           ],
         ),
@@ -84,14 +85,14 @@ class MeterPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text(
+            const Text(
               "Fazowość",
               style: TextStyle(fontSize: 16.0),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Text(
               MeterManager.getCurrentMeter().Fazowosc,
-              style: TextStyle(fontSize: 25.0),
+              style: const TextStyle(fontSize: 25.0),
             ),
           ],
         ),
@@ -108,9 +109,10 @@ class MeterPage extends StatelessWidget {
                 color: Theme.of(context).primaryColor,
                 boxShadow: [
                   BoxShadow(
-                    offset: Offset(0, 4),
+                    offset: const Offset(0, 4),
                     blurRadius: 30,
-                    color: Color.fromARGB(255, 236, 0, 217).withOpacity(.16),
+                    color:
+                        const Color.fromARGB(255, 236, 0, 217).withOpacity(.16),
                   ),
                 ],
               ),
@@ -118,20 +120,20 @@ class MeterPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Text(
+                  const Text(
                     "Nr Licznika",
                     style: TextStyle(
                       fontSize: 16.0,
                     ),
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   Text(
                     MeterManager.getCurrentMeter().NrLicznika,
-                    style: TextStyle(fontSize: 25.0),
+                    style: const TextStyle(fontSize: 25.0),
                   ),
                 ],
               ))),
-      SizedBox(width: 10),
+      const SizedBox(width: 10),
       Expanded(
           child: Container(
         //padding: EdgeInsets.all(20),
@@ -142,9 +144,9 @@ class MeterPage extends StatelessWidget {
           color: Theme.of(context).primaryColor,
           boxShadow: [
             BoxShadow(
-              offset: Offset(0, 4),
+              offset: const Offset(0, 4),
               blurRadius: 30,
-              color: Color.fromARGB(255, 236, 0, 217).withOpacity(.16),
+              color: const Color.fromARGB(255, 236, 0, 217).withOpacity(.16),
             ),
           ],
         ),
@@ -153,18 +155,18 @@ class MeterPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text(
+            const Text(
               "HanPlus",
               style: TextStyle(fontSize: 16.0),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             if (MeterManager.getCurrentMeter().Hanplus == "T") ...[
-              Text(
+              const Text(
                 "Tak",
                 style: TextStyle(fontSize: 25.0),
               ),
             ] else ...[
-              Text(
+              const Text(
                 "Nie",
                 style: TextStyle(fontSize: 25.0),
               ),
@@ -185,9 +187,10 @@ class MeterPage extends StatelessWidget {
                 color: Theme.of(context).primaryColor,
                 boxShadow: [
                   BoxShadow(
-                    offset: Offset(0, 4),
+                    offset: const Offset(0, 4),
                     blurRadius: 30,
-                    color: Color.fromARGB(255, 236, 0, 217).withOpacity(.16),
+                    color:
+                        const Color.fromARGB(255, 236, 0, 217).withOpacity(.16),
                   ),
                 ],
               ),
@@ -195,11 +198,11 @@ class MeterPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Text(
+                  const Text(
                     "Pobór",
                     style: TextStyle(fontSize: 16.0),
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   if (MeterManager.getCurrentMeter().MeterUsedValue1 != "") ...[
                     SevenSegmentDisplay(
                       value: MeterManager.getCurrentMeter().MeterUsedValue1,
@@ -209,7 +212,7 @@ class MeterPage extends StatelessWidget {
                         disabledColor: Colors.green.withOpacity(0),
                       ),
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     SevenSegmentDisplay(
                       value: "-",
                       size: 2.5,
@@ -219,14 +222,14 @@ class MeterPage extends StatelessWidget {
                       ),
                     ),
                   ] else ...[
-                    Text(
+                    const Text(
                       "-",
                       style: TextStyle(fontSize: 30.0),
                     ),
                   ]
                 ],
               ))),
-      SizedBox(width: 10),
+      const SizedBox(width: 10),
       Expanded(
           child: Container(
         //padding: EdgeInsets.all(20),
@@ -237,9 +240,9 @@ class MeterPage extends StatelessWidget {
           color: Theme.of(context).primaryColor,
           boxShadow: [
             BoxShadow(
-              offset: Offset(0, 4),
+              offset: const Offset(0, 4),
               blurRadius: 30,
-              color: Color.fromARGB(255, 236, 0, 217).withOpacity(.16),
+              color: const Color.fromARGB(255, 236, 0, 217).withOpacity(.16),
             ),
           ],
         ),
@@ -248,11 +251,11 @@ class MeterPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text(
+            const Text(
               "Generacja",
               style: TextStyle(fontSize: 16.0),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             if (MeterManager.getCurrentMeter().MeterGenerationValue1 != "") ...[
               SevenSegmentDisplay(
                 value: MeterManager.getCurrentMeter().MeterGenerationValue1,
@@ -262,7 +265,7 @@ class MeterPage extends StatelessWidget {
                   disabledColor: Colors.green.withOpacity(0),
                 ),
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               SevenSegmentDisplay(
                 value: "-",
                 size: 2.5,
@@ -272,7 +275,7 @@ class MeterPage extends StatelessWidget {
                 ),
               ),
             ] else ...[
-              Text(
+              const Text(
                 "-",
                 style: TextStyle(
                     fontSize: 30.0, color: Color.fromARGB(255, 0, 0, 0)),
@@ -284,16 +287,16 @@ class MeterPage extends StatelessWidget {
     ]);
     final body = Container(
       width: MediaQuery.of(context).size.width,
-      padding: EdgeInsets.all(25.0),
+      padding: const EdgeInsets.all(25.0),
       //color: Color(0xFFFEFEFE),
       child: Column(
         children: <Widget>[
           meterStats,
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           image,
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           info,
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
           id
         ],
       ),
@@ -301,6 +304,7 @@ class MeterPage extends StatelessWidget {
     return Scaffold(
       body: body,
       drawer: PublicDrawer(),
+      appBar: PublicAppBar(),
     );
   }
 }

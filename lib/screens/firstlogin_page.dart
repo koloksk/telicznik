@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:telicznik/Api/api.dart';
-import 'package:telicznik/screens/login_page.dart';
 
 import '../Api/DataManager.dart';
 import '../Meters/MeterManager.dart';

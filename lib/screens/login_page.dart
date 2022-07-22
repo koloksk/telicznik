@@ -1,9 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:telicznik/Meters/MeterManager.dart';
 import 'package:telicznik/screens/firstlogin_page.dart';
-import 'package:telicznik/screens/home_page.dart';
 import 'package:telicznik/Api/api.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -29,11 +27,12 @@ class _LoginPageState extends State<LoginPage> {
   //   _isButtonDisabled = false;
   // }
   bool loginbuttonenabled = true;
-  _launchURL() async {
-    const url = 'https://logowanie.tauron-dystrybucja.pl/remind_password';
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
+  Future<void> _launchUrl() async {
+    var url = Uri(
+        scheme: 'https',
+        host: 'logowanie.tauron-dystrybucja.pl',
+        path: '/remind_password');
+    if (!await launchUrl(url)) {
       throw 'Could not launch $url';
     }
   }
@@ -140,7 +139,7 @@ class _LoginPageState extends State<LoginPage> {
     );
 
     final forgotLabel = TextButton(
-      onPressed: _launchURL,
+      onPressed: _launchUrl,
       child: const Text(
         'Nie pamiętasz hasła?',
         //style: TextStyle(color: Colors.black54),

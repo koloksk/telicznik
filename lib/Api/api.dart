@@ -4,7 +4,6 @@ import 'package:http/http.dart' as http;
 import 'package:telicznik/Api/DataManager.dart';
 import 'package:telicznik/Meters/Meter.dart';
 import 'package:telicznik/Utils/utils.dart';
-import 'package:telicznik/screens/firstlogin_page.dart';
 
 import 'package:xml/xml.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -176,7 +175,7 @@ class api {
           textColor: Colors.white,
           fontSize: 16.0);
       _CanShow = false;
-      Timer(Duration(seconds: 10), () {
+      Timer(const Duration(seconds: 10), () {
         _CanShow = true;
       });
     }

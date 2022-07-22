@@ -20,7 +20,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
-  Widget _defaultHome = new LoginPage();
+  Widget _defaultHome = LoginPage();
 
   final SharedPreferences prefs = await SharedPreferences.getInstance();
   String? savedtoken = prefs.getString('token');
@@ -31,7 +31,7 @@ Future<void> main() async {
 
     api.Token = savedtoken;
     await api.getInfo();
-    _defaultHome = new HomePage();
+    _defaultHome = HomePage();
   }
 
   runApp(MyApp(_defaultHome));
@@ -39,6 +39,8 @@ Future<void> main() async {
 
 class MyApp extends StatelessWidget {
   MyApp(Widget? defaultHome) {
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
+
     this.defaultHome = defaultHome;
   }
 
@@ -64,7 +66,7 @@ class MyApp extends StatelessWidget {
       home: defaultHome,
       routes: routes,
       builder: EasyLoading.init(),
-      localizationsDelegates: [
+      localizationsDelegates: const [
         MonthYearPickerLocalizations.delegate,
       ],
     );

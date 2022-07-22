@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:telicznik/Meters/MeterManager.dart';
 import 'package:telicznik/drawer.dart';
-import 'package:segment_display/segment_display.dart';
+
+import '../appbar.dart';
 
 class MocPage extends StatelessWidget {
   static String tag = 'moc-page';
@@ -19,9 +20,10 @@ class MocPage extends StatelessWidget {
                 color: Theme.of(context).primaryColor,
                 boxShadow: [
                   BoxShadow(
-                    offset: Offset(0, 4),
+                    offset: const Offset(0, 4),
                     blurRadius: 30,
-                    color: Color.fromARGB(255, 236, 0, 217).withOpacity(.16),
+                    color:
+                        const Color.fromARGB(255, 236, 0, 217).withOpacity(.16),
                   ),
                 ],
               ),
@@ -29,18 +31,18 @@ class MocPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Text(
+                  const Text(
                     "Moc Umowna",
                     style: TextStyle(fontSize: 16.0),
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   Text(
-                    MeterManager.getCurrentMeter().MocUmowna + " KW",
-                    style: TextStyle(fontSize: 25.0),
+                    "${MeterManager.getCurrentMeter().MocUmowna} KW",
+                    style: const TextStyle(fontSize: 25.0),
                   ),
                 ],
               ))),
-      SizedBox(width: 10),
+      const SizedBox(width: 10),
       Expanded(
           child: Container(
         //padding: EdgeInsets.all(20),
@@ -51,9 +53,9 @@ class MocPage extends StatelessWidget {
           color: Theme.of(context).primaryColor,
           boxShadow: [
             BoxShadow(
-              offset: Offset(0, 4),
+              offset: const Offset(0, 4),
               blurRadius: 30,
-              color: Color.fromARGB(255, 236, 0, 217).withOpacity(.16),
+              color: const Color.fromARGB(255, 236, 0, 217).withOpacity(.16),
             ),
           ],
         ),
@@ -61,7 +63,7 @@ class MocPage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
+          children: const [
             Text(
               "MAX w tym tyg.",
               style: TextStyle(fontSize: 16.0),
@@ -78,7 +80,7 @@ class MocPage extends StatelessWidget {
 
     final body = Container(
       width: MediaQuery.of(context).size.width,
-      padding: EdgeInsets.all(25.0),
+      padding: const EdgeInsets.all(25.0),
       //color: Theme.of(context).backgroundColor,
       child: Column(
         children: <Widget>[
@@ -89,6 +91,7 @@ class MocPage extends StatelessWidget {
     return Scaffold(
       body: body,
       drawer: PublicDrawer(),
+      appBar: PublicAppBar(),
     );
   }
 }

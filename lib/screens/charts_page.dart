@@ -6,6 +6,8 @@ import 'package:telicznik/charts/hourly_chart.dart';
 import 'package:telicznik/drawer.dart';
 import 'package:month_year_picker/month_year_picker.dart';
 
+import '../appbar.dart';
+
 class ChartsPage extends StatefulWidget {
   static String tag = 'charts-page';
 
@@ -168,6 +170,7 @@ class _ChartsPage extends State<ChartsPage> {
         children: [SizedBox(height: 40), buttons, GetChart()],
       ),
       drawer: PublicDrawer(),
+      appBar: PublicAppBar(),
     );
   }
 

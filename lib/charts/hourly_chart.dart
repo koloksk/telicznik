@@ -62,76 +62,57 @@ class hourly_chart extends StatelessWidget {
           aspectRatio: 2,
           child: LineChart(
             LineChartData(
-              borderData: FlBorderData(
-                  border:
-                      const Border(bottom: BorderSide(), left: BorderSide())),
-              gridData: FlGridData(show: true),
-              titlesData: FlTitlesData(
-                leftTitles: AxisTitles(
-                  sideTitles: SideTitles(
-                    showTitles: true,
-                    reservedSize: 30,
-                    // checkToShowTitle: (double minValue,
-                    //     double maxValue,
-                    //     SideTitles sideTitles,
-                    //     double appliedInterval,
-                    //     double value) {
-                    //   if (value == maxValue) return false;
-                    //   return true;
-                    // },
+                borderData: FlBorderData(
+                    border:
+                        const Border(bottom: BorderSide(), left: BorderSide())),
+                gridData: FlGridData(show: true),
+                titlesData: FlTitlesData(
+                  leftTitles: AxisTitles(
+                    sideTitles: SideTitles(
+                      showTitles: true,
+                      reservedSize: 30,
+                      // checkToShowTitle: (double minValue,
+                      //     double maxValue,
+                      //     SideTitles sideTitles,
+                      //     double appliedInterval,
+                      //     double value) {
+                      //   if (value == maxValue) return false;
+                      //   return true;
+                      // },
+                    ),
                   ),
+                  topTitles:
+                      AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                  rightTitles:
+                      AxisTitles(sideTitles: SideTitles(showTitles: false)),
                 ),
-                topTitles:
-                    AxisTitles(sideTitles: SideTitles(showTitles: false)),
-                rightTitles:
-                    AxisTitles(sideTitles: SideTitles(showTitles: false)),
-              ),
-              lineBarsData: [
-                LineChartBarData(
-                  spots: createSampleData(),
-                  color: chartstyles.usage,
-                  isCurved: false,
-                  belowBarData: BarAreaData(
-                    show: true,
+                lineBarsData: [
+                  LineChartBarData(
+                    spots: createSampleData(),
                     color: chartstyles.usage,
+                    isCurved: false,
+                    belowBarData: BarAreaData(
+                      show: true,
+                      color: chartstyles.usage,
+                    ),
+                    dotData: FlDotData(
+                      show: false,
+                    ),
                   ),
-                  dotData: FlDotData(
-                    show: false,
-                  ),
-                ),
-                LineChartBarData(
-                  spots: createSampleData1(),
-                  color: chartstyles.generation,
-                  belowBarData: BarAreaData(
-                    show: true,
+                  LineChartBarData(
+                    spots: createSampleData1(),
                     color: chartstyles.generation,
+                    belowBarData: BarAreaData(
+                      show: true,
+                      color: chartstyles.generation,
+                    ),
+                    isCurved: false,
+                    dotData: FlDotData(
+                      show: false,
+                    ),
                   ),
-                  isCurved: false,
-                  dotData: FlDotData(
-                    show: false,
-                  ),
-                ),
-              ],
-              lineTouchData: LineTouchData(
-                touchTooltipData: LineTouchTooltipData(
-                    maxContentWidth: 100,
-                    tooltipBgColor: Colors.orange,
-                    getTooltipItems: (touchedSpots) {
-                      print(touchedSpots);
-                      return touchedSpots.map((LineBarSpot touchedSpot) {
-                        final textStyle = TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 14,
-                        );
-                        return LineTooltipItem(
-                            '${touchedSpot.y.toStringAsFixed(2)} kWh',
-                            textStyle);
-                      }).toList();
-                    }),
-                handleBuiltInTouches: true,
-                getTouchLineStart: (data, index) => 0,
-              ),
-            ),
+                ],
+                lineTouchData: chartstyles.spotstyle),
           ),
         ));
   }

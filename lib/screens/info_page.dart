@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:telicznik/drawer.dart';
 
+import '../appbar.dart';
+
 class InfoPage extends StatelessWidget {
   static String tag = 'info-page';
 
@@ -15,8 +17,8 @@ class InfoPage extends StatelessWidget {
     );
     final body = Container(
       width: MediaQuery.of(context).size.width,
-      padding: EdgeInsets.all(28.0),
-      decoration: BoxDecoration(
+      padding: const EdgeInsets.all(28.0),
+      decoration: const BoxDecoration(
         gradient: LinearGradient(colors: [
           Colors.blue,
           Colors.lightBlueAccent,
@@ -29,6 +31,7 @@ class InfoPage extends StatelessWidget {
     return Scaffold(
       body: body,
       drawer: PublicDrawer(),
+      appBar: PublicAppBar(),
     );
   }
 }

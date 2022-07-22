@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:telicznik/Api/api.dart';
 import 'package:telicznik/Meters/MeterManager.dart';
+import 'package:telicznik/appbar.dart';
 //import 'package:telicznik/charts/chart.dart';
 import 'package:telicznik/drawer.dart';
 import 'package:telicznik/screens/login_page.dart';
@@ -36,19 +37,19 @@ class _HomePage extends State<HomePage> {
           color: Theme.of(context).primaryColor,
           boxShadow: [
             BoxShadow(
-              offset: Offset(0, 4),
+              offset: const Offset(0, 4),
               blurRadius: 30,
-              color: Color.fromARGB(255, 236, 0, 217).withOpacity(.16),
+              color: const Color.fromARGB(255, 236, 0, 217).withOpacity(.16),
             ),
           ],
         ),
         child: GridView(
-          physics: NeverScrollableScrollPhysics(),
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          physics: const NeverScrollableScrollPhysics(),
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 5,
           ),
           children: [
-            Icon(
+            const Icon(
               FontAwesomeIcons.solarPanel,
               color: Color.fromARGB(255, 226, 0, 112),
             ),
@@ -60,21 +61,15 @@ class _HomePage extends State<HomePage> {
                 alignment: WrapAlignment.center,
                 direction: Axis.horizontal, // ma
                 children: <Widget>[
-                  Icon(FontAwesomeIcons.arrowRightLong, size: 40.0),
+                  const Icon(FontAwesomeIcons.arrowRightLong, size: 40.0),
                   Text(
-                    double.parse(MeterManager.getCurrentMeter()
-                                .DailyGeneration
-                                .last
-                                .toString()
-                                .split(";")[1])
-                            .toStringAsFixed(1) +
-                        "kWh",
-                    style: TextStyle(fontSize: 13.0),
+                    "${double.parse(MeterManager.getCurrentMeter().DailyGeneration.last.toString().split(";")[1]).toStringAsFixed(1)}kWh",
+                    style: const TextStyle(fontSize: 13.0),
                   ),
                 ],
               ),
             ),
-            Icon(
+            const Icon(
               FontAwesomeIcons.bolt,
               color: Color.fromARGB(255, 226, 0, 112),
             ),
@@ -86,21 +81,15 @@ class _HomePage extends State<HomePage> {
                 alignment: WrapAlignment.center,
                 direction: Axis.horizontal, // ma
                 children: <Widget>[
-                  Icon(FontAwesomeIcons.arrowRightLong, size: 40.0),
+                  const Icon(FontAwesomeIcons.arrowRightLong, size: 40.0),
                   Text(
-                    double.parse(MeterManager.getCurrentMeter()
-                                .DailyUsage
-                                .last
-                                .toString()
-                                .split(";")[1])
-                            .toStringAsFixed(1) +
-                        "kWh",
-                    style: TextStyle(fontSize: 13.0),
+                    "${double.parse(MeterManager.getCurrentMeter().DailyUsage.last.toString().split(";")[1]).toStringAsFixed(1)}kWh",
+                    style: const TextStyle(fontSize: 13.0),
                   ),
                 ],
               ),
             ),
-            Icon(
+            const Icon(
               FontAwesomeIcons.house,
               color: Color.fromARGB(255, 226, 0, 112),
             ),
@@ -130,9 +119,9 @@ class _HomePage extends State<HomePage> {
           color: Theme.of(context).primaryColor,
           boxShadow: [
             BoxShadow(
-              offset: Offset(0, 4),
+              offset: const Offset(0, 4),
               blurRadius: 30,
-              color: Color.fromARGB(255, 236, 0, 217).withOpacity(.16),
+              color: const Color.fromARGB(255, 236, 0, 217).withOpacity(.16),
             ),
           ],
         ),
@@ -140,25 +129,25 @@ class _HomePage extends State<HomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text(
+            const Text(
               "Ostatnia aktualizacja",
               style: TextStyle(fontSize: 16.0),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Text(
               MeterManager.getCurrentMeter().lastupdate,
-              style: TextStyle(fontSize: 25.0),
+              style: const TextStyle(fontSize: 25.0),
             ),
           ],
         ));
 
     final body = Column(
       children: <Widget>[
-        SizedBox(height: 10),
+        const SizedBox(height: 10),
         card1,
-        SizedBox(height: 10),
-        LineChartWidget(),
-        SizedBox(height: 10),
+        const SizedBox(height: 10),
+        const LineChartWidget(),
+        const SizedBox(height: 10),
         lastupdate
       ],
     );
@@ -166,6 +155,7 @@ class _HomePage extends State<HomePage> {
     return Scaffold(
       body: SingleChildScrollView(child: body),
       drawer: PublicDrawer(),
+      appBar: PublicAppBar(),
     );
   }
 }
