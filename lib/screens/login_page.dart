@@ -1,9 +1,8 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:telicznik/Api/DataManager.dart';
 import 'package:telicznik/Meters/MeterManager.dart';
+import 'package:telicznik/screens/firstlogin_page.dart';
 import 'package:telicznik/screens/home_page.dart';
 import 'package:telicznik/Api/api.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -17,7 +16,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class LoginPage extends StatefulWidget {
   static String tag = 'login-page';
   @override
-  _LoginPageState createState() => new _LoginPageState();
+  _LoginPageState createState() => _LoginPageState();
 }
 
 class _LoginPageState extends State<LoginPage> {
@@ -41,27 +40,23 @@ class _LoginPageState extends State<LoginPage> {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     String? savedtoken = prefs.getString('token');
     if (savedtoken != null && savedtoken != "") {
-      print("Zapisany token: " + savedtoken);
+      //print("Zapisany token: " + savedtoken);
       api.Token = savedtoken;
 
       await api.getInfo();
-
-      Navigator.of(context).pushNamed(HomePage.tag);
+      //Navigator.of(context).pushNamed(FirstLoginPage.tag);
       return true;
     } else {
       return false;
     }
   }
 
-  static String? token = null;
-
   @override
   Widget build(BuildContext context) {
     autoLogIn(context);
 
-    final TextEditingController loginController = new TextEditingController();
-    final TextEditingController passwordController =
-        new TextEditingController();
+    final TextEditingController loginController = TextEditingController();
+    final TextEditingController passwordController = TextEditingController();
     final logo = Hero(
       tag: 'hero',
       child: CircleAvatar(
@@ -77,10 +72,10 @@ class _LoginPageState extends State<LoginPage> {
       autofocus: false,
       autovalidateMode: AutovalidateMode.always,
       //initialValue: 'alucard@gmail.com',
-      maxLength: 30,
+      //maxLength: 30,
       decoration: InputDecoration(
         hintText: 'Email',
-        contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+        contentPadding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
       ),
     );
@@ -92,12 +87,13 @@ class _LoginPageState extends State<LoginPage> {
       obscureText: true,
       decoration: InputDecoration(
         hintText: 'Hasło',
-        contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+        contentPadding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
       ),
     );
+
     final loginButton = Padding(
-      padding: EdgeInsets.symmetric(vertical: 16.0),
+      padding: const EdgeInsets.symmetric(vertical: 16.0),
       child: Material(
         borderRadius: BorderRadius.circular(30.0),
         shadowColor: Colors.lightBlueAccent.shade100,
@@ -109,11 +105,13 @@ class _LoginPageState extends State<LoginPage> {
             if (loginbuttonenabled) {
               loginbuttonenabled = false;
               EasyLoading.show();
-              bool token = await api.login(
+              String? token = await api.login(
                   loginController.text, passwordController.text);
-              if (await token == true) {
+              if (token != null) {
                 EasyLoading.dismiss();
-                Navigator.of(context).pushNamed(HomePage.tag);
+
+                if (!mounted) return;
+                Navigator.of(context).pushReplacementNamed(FirstLoginPage.tag);
               } else {
                 EasyLoading.dismiss();
 
@@ -127,55 +125,51 @@ class _LoginPageState extends State<LoginPage> {
                     fontSize: 16.0);
               }
 
-              Timer(Duration(seconds: 5), () {
+              Timer(const Duration(seconds: 5), () {
                 loginbuttonenabled = true;
               });
             }
           },
           color: Colors.lightBlueAccent,
-          child: Text('Zaloguj się', style: TextStyle(color: Colors.white)),
+          child:
+              const Text('Zaloguj się', style: TextStyle(color: Colors.white)),
         ),
       ),
     );
 
     final forgotLabel = TextButton(
-      child: Text(
-        'Nie pamiętasz hasła?',
-        style: TextStyle(color: Colors.black54),
-      ),
       onPressed: _launchURL,
+      child: const Text(
+        'Nie pamiętasz hasła?',
+        //style: TextStyle(color: Colors.black54),
+      ),
     );
     final demo = TextButton(
-      child: Text(
+      child: const Text(
         'Przetestuj demo',
-        style: TextStyle(color: Colors.black54),
+        //style: TextStyle(color: Colors.black54),
       ),
-      onPressed: () async {
-        api.setToken("GMO1JKRII20EPQ725RBCR5J9YU3UZZDE");
-        //LoginPage.id = api.Token;
+      onPressed: () {
+        api.Token = "GMO1JKRII20EPQ725RBCR5J9YU3UZZDE";
 
-        await api.getInfo();
-        await api.getDailyStats();
-        await api.getMeterValues();
-        await api.getMonthlyUsage(MeterManager.getCurrentMeter().NREW);
         EasyLoading.dismiss();
-        Navigator.of(context).pushNamed(HomePage.tag);
+        Navigator.of(context).pushNamed(FirstLoginPage.tag);
       },
     );
     return Scaffold(
-      backgroundColor: Colors.white,
+      //backgroundColor: Colors.white,
       body: Center(
         child: ListView(
           physics: const NeverScrollableScrollPhysics(),
           shrinkWrap: true,
-          padding: EdgeInsets.only(left: 24.0, right: 24.0),
+          padding: const EdgeInsets.only(left: 24.0, right: 24.0),
           children: <Widget>[
             logo,
-            SizedBox(height: 48.0),
+            const SizedBox(height: 48.0),
             email,
-            SizedBox(height: 8.0),
+            const SizedBox(height: 8.0),
             password,
-            SizedBox(height: 24.0),
+            const SizedBox(height: 24.0),
             loginButton,
             forgotLabel,
             demo

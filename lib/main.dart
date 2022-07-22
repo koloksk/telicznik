@@ -3,6 +3,8 @@ import 'package:telicznik/screens/charts_page.dart';
 import 'package:telicznik/screens/info_page.dart';
 import 'package:telicznik/screens/meter_page.dart';
 import 'package:telicznik/screens/moc_page.dart';
+import 'package:telicznik/screens/firstlogin_page.dart';
+
 import 'package:telicznik/themes.dart';
 import 'screens/login_page.dart';
 import 'screens/home_page.dart';
@@ -49,13 +51,14 @@ class MyApp extends StatelessWidget {
     MeterPage.tag: (context) => MeterPage(),
     MocPage.tag: (context) => MocPage(),
     ChartsPage.tag: (context) => ChartsPage(),
+    FirstLoginPage.tag: (context) => FirstLoginPage(),
   };
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Telicznik',
       debugShowCheckedModeBanner: false,
-      themeMode: ThemeMode.system,
+      themeMode: ThemeMode.dark,
       theme: Themes.lighttheme,
       darkTheme: Themes.darktheme,
       home: defaultHome,

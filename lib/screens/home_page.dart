@@ -24,7 +24,7 @@ class _HomePage extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    if (api.Token == null) {
+    if (api.Token == "") {
       Navigator.of(context).pushNamed(LoginPage.tag);
     }
 

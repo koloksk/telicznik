@@ -3,7 +3,7 @@ import 'package:telicznik/Api/DataManager.dart';
 import 'Meter.dart';
 
 class MeterManager {
-  static Map meters = new Map();
+  static Map meters = {};
   //static List<String> numbers = <String>[];
   static String currentMeter = "";
 
@@ -12,7 +12,7 @@ class MeterManager {
   }
 
   static Meter getCurrentMeter() {
-    print(meters.keys);
+    //print(meters.keys);
     if (currentMeter == "") {
       List<String> numbers = <String>[];
 
@@ -31,7 +31,7 @@ class MeterManager {
     meters.forEach((key, value) {
       numbers.add(key.toString());
     });
-    print("numbers: " + numbers.toString());
+    //print("numbers: " + numbers.toString());
     return numbers;
   }
 

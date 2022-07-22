@@ -3,6 +3,8 @@ import 'package:telicznik/Meters/MeterManager.dart';
 
 import 'package:fl_chart/fl_chart.dart';
 
+import 'charts_style.dart';
+
 class hourly_chart extends StatelessWidget {
   //final List<PricePoint> points;
   final String time;
@@ -25,14 +27,6 @@ class hourly_chart extends StatelessWidget {
     return data;
   }
 
-  static List<Color> gradientColors = [
-    const Color(0xfff54242),
-    Color.fromARGB(61, 255, 164, 164),
-  ];
-  static List<Color> gradientColors2 = [
-    Color.fromARGB(255, 0, 240, 80),
-    Color.fromARGB(255, 25, 185, 60),
-  ];
   List<FlSpot> createSampleData1() {
     final List<FlSpot> data = [];
 
@@ -73,31 +67,33 @@ class hourly_chart extends StatelessWidget {
                       const Border(bottom: BorderSide(), left: BorderSide())),
               gridData: FlGridData(show: true),
               titlesData: FlTitlesData(
-                leftTitles: SideTitles(
-                  showTitles: true,
-                  reservedSize: 30,
-                  checkToShowTitle: (double minValue,
-                      double maxValue,
-                      SideTitles sideTitles,
-                      double appliedInterval,
-                      double value) {
-                    if (value == maxValue) return false;
-                    return true;
-                  },
+                leftTitles: AxisTitles(
+                  sideTitles: SideTitles(
+                    showTitles: true,
+                    reservedSize: 30,
+                    // checkToShowTitle: (double minValue,
+                    //     double maxValue,
+                    //     SideTitles sideTitles,
+                    //     double appliedInterval,
+                    //     double value) {
+                    //   if (value == maxValue) return false;
+                    //   return true;
+                    // },
+                  ),
                 ),
-                topTitles: SideTitles(showTitles: false),
-                rightTitles: SideTitles(showTitles: false),
+                topTitles:
+                    AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                rightTitles:
+                    AxisTitles(sideTitles: SideTitles(showTitles: false)),
               ),
               lineBarsData: [
                 LineChartBarData(
                   spots: createSampleData(),
-                  colors: [Colors.pink],
+                  color: chartstyles.usage,
                   isCurved: false,
                   belowBarData: BarAreaData(
                     show: true,
-                    colors: gradientColors
-                        .map((color) => color.withOpacity(0.3))
-                        .toList(),
+                    color: chartstyles.usage,
                   ),
                   dotData: FlDotData(
                     show: false,
@@ -105,12 +101,10 @@ class hourly_chart extends StatelessWidget {
                 ),
                 LineChartBarData(
                   spots: createSampleData1(),
-                  colors: [Colors.green],
+                  color: chartstyles.generation,
                   belowBarData: BarAreaData(
                     show: true,
-                    colors: gradientColors2
-                        .map((color) => color.withOpacity(0.3))
-                        .toList(),
+                    color: chartstyles.generation,
                   ),
                   isCurved: false,
                   dotData: FlDotData(

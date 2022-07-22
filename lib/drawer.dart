@@ -1,6 +1,5 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
+import 'package:telicznik/Api/api.dart';
 import 'package:telicznik/Meters/MeterManager.dart';
 import 'package:telicznik/screens/charts_page.dart';
 import 'package:telicznik/screens/home_page.dart';
@@ -8,7 +7,6 @@ import 'package:telicznik/screens/info_page.dart';
 import 'package:telicznik/screens/login_page.dart';
 import 'package:telicznik/screens/meter_page.dart';
 import 'package:telicznik/screens/moc_page.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class PublicDrawer extends StatefulWidget {
   @override
@@ -30,28 +28,24 @@ class _PublicDrawerState extends State<PublicDrawer> {
             child: Column(children: <Widget>[
               Text(
                 MeterManager.getCurrentMeter().Description,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 24,
                 ),
               ),
               Text(
-                MeterManager.getCurrentMeter().City +
-                    " " +
-                    MeterManager.getCurrentMeter().Street +
-                    " " +
-                    MeterManager.getCurrentMeter().Nr,
-                style: TextStyle(
+                "${MeterManager.getCurrentMeter().City} ${MeterManager.getCurrentMeter().Street} ${MeterManager.getCurrentMeter().Nr}",
+                style: const TextStyle(
                   fontSize: 12,
                 ),
               ),
               DropdownButton<String>(
-                  hint: Text("Wybierz licznik"),
+                  hint: const Text("Wybierz licznik"),
                   value: MeterManager.getCurrentMeter().Nr,
                   items: MeterManager.getMeterListName().map((String value) {
-                    print(value);
+                    //print(value);
                     return DropdownMenuItem<String>(
                       value: value,
-                      child: new Text(value),
+                      child: Text(value),
                     );
                   }).toList(),
                   onChanged: (String? val) {
@@ -63,51 +57,51 @@ class _PublicDrawerState extends State<PublicDrawer> {
           ),
 
           ListTile(
-            leading: Icon(
+            leading: const Icon(
               Icons.home,
               color: Color.fromARGB(255, 226, 0, 112),
             ),
-            title: Text('Dom'),
+            title: const Text('Dom'),
             onTap: () {
               Navigator.of(context).pushNamed(HomePage.tag);
             },
           ),
           ListTile(
-            leading: Icon(
+            leading: const Icon(
               Icons.onetwothree,
               color: Color.fromARGB(255, 226, 0, 112),
             ),
-            title: Text('Licznik'),
+            title: const Text('Licznik'),
             onTap: () {
               Navigator.of(context).pushNamed(MeterPage.tag);
             },
           ),
           ListTile(
-            leading: Icon(
+            leading: const Icon(
               Icons.power,
               color: Color.fromARGB(255, 226, 0, 112),
             ),
-            title: Text('Moc'),
+            title: const Text('Moc'),
             onTap: () {
               Navigator.of(context).pushNamed(MocPage.tag);
             },
           ),
           ListTile(
-            leading: Icon(
+            leading: const Icon(
               Icons.area_chart,
               color: Color.fromARGB(255, 226, 0, 112),
             ),
-            title: Text('Wykresy'),
+            title: const Text('Wykresy'),
             onTap: () {
               Navigator.of(context).pushNamed(ChartsPage.tag);
             },
           ),
           ListTile(
-            leading: Icon(
+            leading: const Icon(
               Icons.info,
               color: Color.fromARGB(255, 226, 0, 112),
             ),
-            title: Text('Informacje'),
+            title: const Text('Informacje'),
             onTap: () {
               Navigator.of(context).pushNamed(InfoPage.tag);
             },
@@ -118,11 +112,12 @@ class _PublicDrawerState extends State<PublicDrawer> {
           Column(
             children: <Widget>[
               ListTile(
-                leading: Icon(Icons.logout),
-                title: Text('Wyloguj'),
-                onTap: () async {
-                  MeterManager.reset();
+                leading: const Icon(Icons.logout),
+                title: const Text('Wyloguj'),
+                onTap: () {
                   Navigator.of(context).pushNamed(LoginPage.tag);
+                  api.Token = "";
+                  MeterManager.reset();
                 },
               ),
             ],

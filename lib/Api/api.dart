@@ -4,6 +4,8 @@ import 'package:http/http.dart' as http;
 import 'package:telicznik/Api/DataManager.dart';
 import 'package:telicznik/Meters/Meter.dart';
 import 'package:telicznik/Utils/utils.dart';
+import 'package:telicznik/screens/firstlogin_page.dart';
+
 import 'package:xml/xml.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter/material.dart';
@@ -16,17 +18,17 @@ class api {
 
   static String Token = "";
 
-  static String YeasterdayDate = "";
+  //static String YeasterdayDate = "";
 
-  static String MeterGenerationValue1 = "";
-  static String MeterGenerationValue2 = "";
-  static String MeterUsedValue1 = "";
-  static String MeterUsedValue2 = "";
+  //static String MeterGenerationValue1 = "";
+  //static String MeterGenerationValue2 = "";
+  //static String MeterUsedValue1 = "";
+  //static String MeterUsedValue2 = "";
 
   static String ApiUrl =
       "https://elicznik.tauron-dystrybucja.pl/webservice/v3/method";
 
-  static Future<bool> login(String login, String password) async {
+  static Future<String?> login(String login, String password) async {
     var url = Uri.parse(
         'https://elicznik.tauron-dystrybucja.pl/validatev3/appslogin?username=${login}&password=${password}');
     var response = await http.post(url);
@@ -36,17 +38,12 @@ class api {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       prefs.setString('token', Token);
 
-      await api.getInfo();
-
-      return true;
-    } else {
-      return false;
+      return Token;
     }
+    return null;
   }
 
   static getInfo() async {
-    YeasterdayDate = utils.getYeasterdayDate();
-
     if (await DataManager.CheckData() != false) {
       print("są dane");
       await DataManager.GetData();
@@ -57,8 +54,7 @@ class api {
     } else {
       print("brak danych");
 
-      var url = Uri.parse(
-          'https://elicznik.tauron-dystrybucja.pl/webservice/v3/method/GetTokenMeterList?TOKEN=${Token}');
+      var url = Uri.parse('${ApiUrl}/GetTokenMeterList?TOKEN=${Token}');
 
       var response = await http.post(url);
       var result = XmlDocument.parse(response.body).findAllElements("TMeter");
@@ -85,7 +81,7 @@ class api {
         String Fazowosc = element.findElements('Fazowosc').first.text;
         String Hanplus = element.findElements('Hanplus').first.text;
         String lastupdate = DateTime.now().toString();
-        print(element);
+        print("Pobrano Dane Licznika (${NrLicznika})");
         MeterManager.meters.putIfAbsent(
             Nr,
             () => Meter(
@@ -104,23 +100,14 @@ class api {
                 NrLicznika,
                 Fazowosc,
                 Hanplus,
-                MeterGenerationValue1,
-                MeterGenerationValue2,
-                MeterUsedValue1,
-                MeterUsedValue2,
+                "",
+                "",
+                "",
+                "",
                 lastupdate));
       });
       //MeterManager.currentMeter = MeterManager.numbers.first;
-      await api.getDailyStats();
-      await api.getMeterValues();
-      await api.getMonthlyUsage(MeterManager.getCurrentMeter().NREW);
-      await api.getMonthlyGeneration(MeterManager.getCurrentMeter().NREW);
-      await api.getHourlyUsage(MeterManager.getCurrentMeter().NREW,
-          MeterManager.getCurrentMeter().DateFrom);
-      await api.getHourlyGeneration(MeterManager.getCurrentMeter().NREW,
-          MeterManager.getCurrentMeter().DateFrom);
 
-      await DataManager.SaveData();
     }
   }
 
@@ -139,11 +126,10 @@ class api {
 
   static getDailyUsage(String NREW, String first_date) async {
     var url = Uri.parse(
-        'https://elicznik.tauron-dystrybucja.pl/webservice/v3/method/GetReadStatD?NREW=${NREW}&DateFrom=${first_date}&DateTo=${YeasterdayDate}&TOKEN=${Token}');
-    print(url);
+        '${ApiUrl}/GetReadStatD?NREW=${NREW}&DateFrom=${first_date}&DateTo=${utils.getYeasterdayDate()}&TOKEN=${Token}');
     var response = await http.post(url);
     var result = XmlDocument.parse(response.body).findAllElements('Stat');
-    print(result);
+    print("Pobrano Dzienne Zurzycie (${url})");
 
     result.forEach((element) {
       String day = element.getElement("Period")!.text;
@@ -160,12 +146,10 @@ class api {
 
   static getDailyGeneration(String NREW, String first_date) async {
     var url = Uri.parse(
-        'https://elicznik.tauron-dystrybucja.pl/webservice/v3/method/GetGStatistic?NREW=${NREW}&DateFrom=${first_date}&DateTo=${YeasterdayDate}&TOKEN=${Token}');
-    print(url);
+        '${ApiUrl}/GetGStatistic?NREW=${NREW}&DateFrom=${first_date}&DateTo=${utils.getYeasterdayDate()}&TOKEN=${Token}');
     var response = await http.post(url);
     var result = XmlDocument.parse(response.body).findAllElements('Stat');
-    print(result);
-
+    print("Pobrano Dzienna Generacje (${url})");
     result.forEach((element) {
       String day = element.getElement("Period")!.text;
       String sum = element.getElement("Sum")!.text;
@@ -213,7 +197,7 @@ class api {
     var result;
     try {
       var url = Uri.parse(
-          'https://elicznik.tauron-dystrybucja.pl/webservice/v3/method/${type}?NREW=${NREW}&DateTo=${YeasterdayDate}&TOKEN=${Token}');
+          '${ApiUrl}/${type}?NREW=${NREW}&DateTo=${utils.getYeasterdayDate()}&TOKEN=${Token}');
       //print(url);
       var response = await http.post(url);
       XmlDocument? xml = XmlDocument.parse(response.body);
@@ -233,7 +217,7 @@ class api {
 
   // static Future<String> getMeterUsage(String NREW) async {
   //   var url = Uri.parse(
-  //       'https://elicznik.tauron-dystrybucja.pl/webservice/v3/method/GetLastRead?NREW=${NREW}&DateTo=${YeasterdayDate}&TOKEN=${Token}');
+  //       '${ApiUrl}/GetLastRead?NREW=${NREW}&DateTo=${YeasterdayDate}&TOKEN=${Token}');
   //   //print(url);
   //   var response = await http.post(url);
   //   var result = XmlDocument.parse(response.body)
@@ -252,7 +236,7 @@ class api {
 
   static getMonthlyUsage(String NREW) async {
     var url = Uri.parse(
-        'https://elicznik.tauron-dystrybucja.pl/webservice/v3/method/GetStatistic?NREW=${NREW}&DateFrom=2021-01-01&DateTo=2021-12-01&TOKEN=${Token}&Stat=M');
+        '${ApiUrl}/GetStatistic?NREW=${NREW}&DateFrom=2021-01-01&DateTo=2021-12-01&TOKEN=${Token}&Stat=M');
     //print(url);
     var response = await http.post(url);
     var result = XmlDocument.parse(response.body).findAllElements("Stat");
@@ -274,7 +258,7 @@ class api {
 
   static getMonthlyGeneration(String NREW) async {
     var url = Uri.parse(
-        'https://elicznik.tauron-dystrybucja.pl/webservice/v3/method/GetGStatistic?NREW=${NREW}&DateFrom=2021-01-01&DateTo=2021-12-01&TOKEN=${Token}&Stat=M');
+        '${ApiUrl}/GetGStatistic?NREW=${NREW}&DateFrom=2021-01-01&DateTo=2021-12-01&TOKEN=${Token}&Stat=M');
     //print(url);
     var response = await http.post(url);
     var result = XmlDocument.parse(response.body).findAllElements("Stat");
@@ -297,8 +281,7 @@ class api {
 
   static getHourlyUsage(String NREW, String first_date) async {
     var url = Uri.parse(
-        'https://elicznik.tauron-dystrybucja.pl/webservice/v3/method/GetProfValue?NREW=${NREW}&DateFrom=${first_date}&DateTo=${YeasterdayDate}&TOKEN=${Token}');
-    print(url);
+        '${ApiUrl}/GetProfValue?NREW=${NREW}&DateFrom=${first_date}&DateTo=${utils.getYeasterdayDate()}&TOKEN=${Token}');
     var response = await http.post(url);
     var result = XmlDocument.parse(response.body).findAllElements("PrValue");
     //print(result);
@@ -315,16 +298,17 @@ class api {
             .add(day + ";" + hour + ";" + sum);
       }
     });
+    print("Pobrano Godzinne Zurzycie (${url})");
   }
 
   static getHourlyGeneration(String NREW, String first_date) async {
     var url = Uri.parse(
-        'https://elicznik.tauron-dystrybucja.pl/webservice/v3/method/GetGProfValue?NREW=${NREW}&DateFrom=${first_date}&DateTo=${YeasterdayDate}&TOKEN=${Token}');
-    print(url);
+        '${ApiUrl}/GetGProfValue?NREW=${NREW}&DateFrom=${first_date}&DateTo=${utils.getYeasterdayDate()}&TOKEN=${Token}');
+
     var response = await http.post(url);
     var result = XmlDocument.parse(response.body).findAllElements("PrValue");
-    //print(result);
-    //print(MeterUsedValue);
+    print("Pobrano Godzinna Generacje (${url})");
+
     result.forEach((element) {
       String day = element.getElement("Date")!.text;
       String sum = element.getElement("EC")!.text;

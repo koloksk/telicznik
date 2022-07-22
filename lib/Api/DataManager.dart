@@ -20,9 +20,9 @@ class DataManager {
   static GetData() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     String? Meters = prefs.getString('meters');
-    print(json.decode(Meters!));
-    print(Meters);
-    Map jsonmap = json.decode(Meters);
+    //print(json.decode(Meters!));
+    //print(Meters);
+    Map jsonmap = json.decode(Meters!);
     jsonmap.forEach((key, value) {
       MeterManager.meters
           .putIfAbsent(key, () => new Meter.fromJson(json.decode(Meters)[key]));
@@ -31,7 +31,7 @@ class DataManager {
 
   static SaveData() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    print(json.encode(MeterManager.meters));
+    //print(json.encode(MeterManager.meters));
     prefs.setString('meters', json.encode(MeterManager.meters));
   }
 
