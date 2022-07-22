@@ -15,6 +15,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
   static String tag = 'login-page';
+
+  const LoginPage({Key? key}) : super(key: key);
   @override
   _LoginPageState createState() => _LoginPageState();
 }
@@ -111,7 +113,7 @@ class _LoginPageState extends State<LoginPage> {
                 EasyLoading.dismiss();
 
                 if (!mounted) return;
-                Navigator.of(context).pushReplacementNamed(FirstLoginPage.tag);
+                Navigator.of(context).pushNamed(FirstLoginPage.tag);
               } else {
                 EasyLoading.dismiss();
 

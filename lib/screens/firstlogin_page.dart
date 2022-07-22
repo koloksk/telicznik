@@ -7,7 +7,7 @@ import '../Meters/MeterManager.dart';
 import 'home_page.dart';
 
 class FirstLoginPage extends StatefulWidget {
-  static String tag = 'login-page';
+  static String tag = 'firstlogin-page';
 
   @override
   _FirstLoginPageState createState() => new _FirstLoginPageState();
