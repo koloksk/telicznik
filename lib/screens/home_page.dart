@@ -25,9 +25,7 @@ class _HomePage extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    if (api.Token == "") {
-      Navigator.of(context).pushNamed(LoginPage.tag);
-    }
+    print("homepage");
 
     final card1 = Container(
         //padding: EdgeInsets.all(20),

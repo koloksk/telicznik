@@ -1,48 +1,28 @@
+// ignore_for_file: non_constant_identifier_names
+
 class Meter {
   // constructor
   Meter(
-      String Description,
-      String City,
-      String Street,
-      String Nr,
-      String PostalCode,
-      String Tarrif,
-      String DateFrom,
-      String DateTo,
-      String MocUmowna,
-      String TypLicznika,
-      String NREW,
-      String LinkIMG,
-      String NrLicznika,
-      String Fazowosc,
-      String Hanplus,
-      String MeterGenerationValue1,
-      String MeterGenerationValue2,
-      String MeterUsedValue1,
-      String MeterUsedValue2,
-      String lastupdate) {
-    this.Description = Description;
-    this.City = City;
-    this.Street = Street;
-    this.Nr = Nr;
-    this.PostalCode = PostalCode;
-    this.Tarrif = Tarrif;
-    this.DateFrom = DateFrom;
-    this.DateTo = DateTo;
-    this.MocUmowna = MocUmowna;
-    this.TypLicznika = TypLicznika;
-    this.NREW = NREW;
-    this.LinkIMG = LinkIMG;
-    this.NrLicznika = NrLicznika;
-    this.Fazowosc = Fazowosc;
-    this.Hanplus = Hanplus;
-    this.MeterGenerationValue1 = MeterGenerationValue1;
-    this.MeterGenerationValue2 = MeterGenerationValue2;
-    this.MeterUsedValue1 = MeterUsedValue1;
-    this.MeterUsedValue2 = MeterUsedValue2;
-
-    this.lastupdate = lastupdate;
-  }
+      this.Description,
+      this.City,
+      this.Street,
+      this.Nr,
+      this.PostalCode,
+      this.Tarrif,
+      this.DateFrom,
+      this.DateTo,
+      this.MocUmowna,
+      this.TypLicznika,
+      this.NREW,
+      this.LinkIMG,
+      this.NrLicznika,
+      this.Fazowosc,
+      this.Hanplus,
+      this.MeterGenerationValue1,
+      this.MeterGenerationValue2,
+      this.MeterUsedValue1,
+      this.MeterUsedValue2,
+      this.lastupdate);
 
   late String Description;
   late String City;

@@ -36,9 +36,10 @@ class MeterManager {
   }
 
   static reset() {
+    DataManager.ResetData();
+    currentMeter = "";
+
     meters.clear();
     //numbers.clear();
-    currentMeter = "";
-    DataManager.ResetData();
   }
 }

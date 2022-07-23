@@ -67,6 +67,8 @@ class _FirstLoginPageState extends State<FirstLoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    print("firstloginpage");
+
     // if (api.Token == "") {
     //   Navigator.of(context).pushNamed(LoginPage.tag);
     // }

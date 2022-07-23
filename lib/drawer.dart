@@ -115,9 +115,10 @@ class _PublicDrawerState extends State<PublicDrawer> {
                 leading: const Icon(Icons.logout),
                 title: const Text('Wyloguj'),
                 onTap: () {
-                  Navigator.of(context).pushNamed(LoginPage.tag);
                   api.Token = "";
                   MeterManager.reset();
+                  Navigator.of(context).pushNamedAndRemoveUntil(
+                      LoginPage.tag, (Route<dynamic> route) => false);
                 },
               ),
             ],

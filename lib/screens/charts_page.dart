@@ -53,7 +53,7 @@ class _ChartsPage extends State<ChartsPage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text("Wybierz rok"),
+          title: const Text("Wybierz rok"),
           content: Container(
             // Need to use container to add size constraint.
             width: 300,

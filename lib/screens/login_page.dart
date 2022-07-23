@@ -37,23 +37,22 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
-  static Future<bool> autoLogIn(BuildContext context) async {
+  static Future autoLogIn(BuildContext context) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     String? savedtoken = prefs.getString('token');
     if (savedtoken != null && savedtoken != "") {
-      //print("Zapisany token: " + savedtoken);
+      print("autologin");
       api.Token = savedtoken;
 
       await api.getInfo();
       //Navigator.of(context).pushNamed(FirstLoginPage.tag);
-      return true;
-    } else {
-      return false;
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    print("loginpage");
+
     autoLogIn(context);
 
     final TextEditingController loginController = TextEditingController();

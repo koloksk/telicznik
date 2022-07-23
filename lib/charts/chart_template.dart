@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:telicznik/charts/charts_style.dart';
 
-import 'charts_data.dart';
-
 class chart_template extends StatelessWidget {
   //final List<PricePoint> points;
   final String time;
