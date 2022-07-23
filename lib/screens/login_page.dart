@@ -45,7 +45,8 @@ class _LoginPageState extends State<LoginPage> {
       api.Token = savedtoken;
 
       await api.getInfo();
-      //Navigator.of(context).pushNamed(FirstLoginPage.tag);
+      Navigator.of(context).pushNamedAndRemoveUntil(
+          FirstLoginPage.tag, (Route<dynamic> route) => false);
     }
   }
 

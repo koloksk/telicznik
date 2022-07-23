@@ -36,11 +36,13 @@ class _FirstLoginPageState extends State<FirstLoginPage> {
       setState(() {
         rawtext = "Pobrano wartości liczników ...";
       });
-      await api.getMonthlyUsage(MeterManager.getCurrentMeter().NREW);
+      await api.getMonthlyUsage(MeterManager.getCurrentMeter().NREW,
+          MeterManager.getCurrentMeter().DateFrom);
       setState(() {
         rawtext = "Pobrano miesieczne zuzycie ...";
       });
-      await api.getMonthlyGeneration(MeterManager.getCurrentMeter().NREW);
+      await api.getMonthlyGeneration(MeterManager.getCurrentMeter().NREW,
+          MeterManager.getCurrentMeter().DateFrom);
       setState(() {
         rawtext = "Pobrano miesieczna generacje ...";
       });

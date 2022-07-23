@@ -233,10 +233,11 @@ class api {
   //   }
   // }
 
-  static getMonthlyUsage(String NREW) async {
+  static getMonthlyUsage(String NREW, String first_date) async {
     var url = Uri.parse(
-        '${ApiUrl}/GetStatistic?NREW=${NREW}&DateFrom=2021-01-01&DateTo=2021-12-01&TOKEN=${Token}&Stat=M');
-    //print(url);
+        '${ApiUrl}/GetStatistic?NREW=${NREW}&DateFrom=${first_date}&DateTo=${utils.getYeasterdayDate()}&TOKEN=${Token}&Stat=M');
+    print("Pobrano Miesieczne Uzycie (${url})");
+
     var response = await http.post(url);
     var result = XmlDocument.parse(response.body).findAllElements("Stat");
     //print(result);
@@ -244,10 +245,14 @@ class api {
     result.forEach((element) {
       String day = element.getElement("Period")!.text.split("-")[1];
       String sum = element.getElement("Sum")!.text;
+      String year = element.getElement("Period")!.text.split("-")[0];
+
       if (!MeterManager.getCurrentMeter()
           .MonthlyUsage
-          .contains(day + ";" + sum)) {
-        MeterManager.getCurrentMeter().MonthlyUsage.add(day + ";" + sum);
+          .contains(day + ";" + year + ";" + sum)) {
+        MeterManager.getCurrentMeter()
+            .MonthlyUsage
+            .add(day + ";" + year + ";" + sum);
       }
     });
     //   MeterManager.getCurrentMeter().MonthlyUsage.putIfAbsent(
@@ -255,10 +260,10 @@ class api {
     // });
   }
 
-  static getMonthlyGeneration(String NREW) async {
+  static getMonthlyGeneration(String NREW, String first_date) async {
     var url = Uri.parse(
-        '${ApiUrl}/GetGStatistic?NREW=${NREW}&DateFrom=2021-01-01&DateTo=2021-12-01&TOKEN=${Token}&Stat=M');
-    //print(url);
+        '${ApiUrl}/GetGStatistic?NREW=${NREW}&DateFrom=${first_date}&DateTo=${utils.getYeasterdayDate()}&TOKEN=${Token}&Stat=M');
+    print("Pobrano Miesieczna Generacje (${url})");
     var response = await http.post(url);
     var result = XmlDocument.parse(response.body).findAllElements("Stat");
     //print(result);
@@ -266,10 +271,13 @@ class api {
     result.forEach((element) {
       String day = element.getElement("Period")!.text.split("-")[1];
       String sum = element.getElement("Sum")!.text;
+      String year = element.getElement("Period")!.text.split("-")[0];
       if (!MeterManager.getCurrentMeter()
           .MonthlyGeneration
-          .contains(day + ";" + sum)) {
-        MeterManager.getCurrentMeter().MonthlyGeneration.add(day + ";" + sum);
+          .contains(day + ";" + year + ";" + sum)) {
+        MeterManager.getCurrentMeter()
+            .MonthlyGeneration
+            .add(day + ";" + year + ";" + sum);
       }
     });
     //   MeterManager.getCurrentMeter().MonthlyGeneration.putIfAbsent(

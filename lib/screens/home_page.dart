@@ -138,18 +138,47 @@ class _HomePage extends State<HomePage> {
             ),
           ],
         ));
-
+    final test = Container(
+        //padding: EdgeInsets.all(20),
+        height: 120,
+        width: MediaQuery.of(context).size.width,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          color: Theme.of(context).primaryColor,
+          boxShadow: [
+            BoxShadow(
+              offset: const Offset(0, 4),
+              blurRadius: 30,
+              color: const Color.fromARGB(255, 236, 0, 217).withOpacity(.16),
+            ),
+          ],
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            const Text(
+              "Aktualny miesiąc",
+              style: TextStyle(fontSize: 16.0),
+            ),
+            const SizedBox(height: 10),
+            Text(
+              "${MeterManager.getCurrentMeter().MonthlyGeneration.last.split(';')[2]} + ${MeterManager.getCurrentMeter().MonthlyUsage.last.split(';')[2]}",
+              style: const TextStyle(fontSize: 25.0),
+            ),
+          ],
+        ));
     final body = Column(
       children: <Widget>[
         const SizedBox(height: 10),
         card1,
         const SizedBox(height: 10),
         chart_template(
-            time: "",
-            datausage: createMonthlyUsage(),
-            datageneration: createMonthlyGeneration()),
+            datausage: createMonthlyUsage("${DateTime.now().year}"),
+            datageneration: createMonthlyGeneration("${DateTime.now().year}")),
         const SizedBox(height: 10),
-        lastupdate
+        lastupdate,
+        test
       ],
     );
 

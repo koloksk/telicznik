@@ -70,26 +70,32 @@ List<FlSpot> createHourlyGeneration(String time) {
   return data;
 }
 
-List<FlSpot> createMonthlyUsage() {
+List<FlSpot> createMonthlyUsage(String time) {
   final List<FlSpot> data = [];
 
   MeterManager.getCurrentMeter().MonthlyUsage.forEach((value) {
-    String month = value.split(';')[0];
-    String sum = value.split(';')[1];
+    String year = value.split(';')[1];
+    if (year == time) {
+      String month = value.split(';')[0];
+      String sum = value.split(';')[2];
 
-    data.add(FlSpot(double.parse(month), double.parse(sum)));
+      data.add(FlSpot(double.parse(month), double.parse(sum)));
+    }
   });
   return data;
 }
 
-List<FlSpot> createMonthlyGeneration() {
+List<FlSpot> createMonthlyGeneration(String time) {
   final List<FlSpot> data = [];
 
   MeterManager.getCurrentMeter().MonthlyGeneration.forEach((value) {
-    String month = value.split(';')[0];
-    String sum = value.split(';')[1];
+    String year = value.split(';')[1];
+    if (year == time) {
+      String month = value.split(';')[0];
+      String sum = value.split(';')[2];
 
-    data.add(FlSpot(double.parse(month), double.parse(sum)));
+      data.add(FlSpot(double.parse(month), double.parse(sum)));
+    }
   });
   return data;
 }

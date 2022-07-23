@@ -5,14 +5,11 @@ import 'package:telicznik/charts/charts_style.dart';
 
 class chart_template extends StatelessWidget {
   //final List<PricePoint> points;
-  final String time;
+
   final List<FlSpot> datausage;
   final List<FlSpot> datageneration;
   const chart_template(
-      {Key? key,
-      required this.time,
-      required this.datausage,
-      required this.datageneration})
+      {Key? key, required this.datausage, required this.datageneration})
       : super(key: key);
 
   @override

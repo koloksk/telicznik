@@ -70,7 +70,9 @@ class _ChartsPage extends State<ChartsPage> {
               onChanged: (DateTime dateTime) {
                 // close the dialog when year is selected.
                 Navigator.pop(context);
-
+                setState(() {
+                  selectedYear = dateTime;
+                });
                 // Do something with the dateTime selected.
                 // Remember that you need to use dateTime.year to get the year
               },
@@ -220,8 +222,6 @@ class _ChartsPage extends State<ChartsPage> {
           ),
         ),
         chart_template(
-            time:
-                "${selectedMonth.year}-${selectedMonth.month < 10 ? selectedMonth.month.toString().padLeft(2, '0') : selectedMonth.month}",
             datausage: createDailyUsage(
                 "${selectedMonth.year}-${selectedMonth.month < 10 ? selectedMonth.month.toString().padLeft(2, '0') : selectedMonth.month}"),
             datageneration: createDailyGeneration(
@@ -252,8 +252,6 @@ class _ChartsPage extends State<ChartsPage> {
           ),
         ),
         chart_template(
-            time:
-                "${selectedDay.year}-${selectedDay.month < 10 ? selectedDay.month.toString().padLeft(2, '0') : selectedDay.month}-${selectedDay.day < 10 ? selectedDay.day.toString().padLeft(2, '0') : selectedDay.day}",
             datausage: createHourlyUsage(
                 "${selectedDay.year}-${selectedDay.month < 10 ? selectedDay.month.toString().padLeft(2, '0') : selectedDay.month}-${selectedDay.day < 10 ? selectedDay.day.toString().padLeft(2, '0') : selectedDay.day}"),
             datageneration: createHourlyGeneration(
@@ -275,9 +273,8 @@ class _ChartsPage extends State<ChartsPage> {
           child: const Text('Wybierz rok'),
         ),
         chart_template(
-            time: "",
-            datausage: createMonthlyUsage(),
-            datageneration: createMonthlyGeneration())
+            datausage: createMonthlyUsage("${selectedYear.year}"),
+            datageneration: createMonthlyGeneration("${selectedYear.year}"))
       ],
     );
   }
