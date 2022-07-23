@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:telicznik/Api/api.dart';
 import 'package:telicznik/Meters/MeterManager.dart';
 import 'package:telicznik/appbar.dart';
+import 'package:telicznik/charts/chart_template.dart';
+import 'package:telicznik/charts/charts_data.dart';
 //import 'package:telicznik/charts/chart.dart';
 import 'package:telicznik/drawer.dart';
 import 'package:telicznik/screens/login_page.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
-import '../charts/monthly_chart.dart';
 
 class HomePage extends StatefulWidget {
   /// Creates the stacked line chart sample.
@@ -146,7 +146,10 @@ class _HomePage extends State<HomePage> {
         const SizedBox(height: 10),
         card1,
         const SizedBox(height: 10),
-        const LineChartWidget(),
+        chart_template(
+            time: "",
+            datausage: createMonthlyUsage(),
+            datageneration: createMonthlyGeneration()),
         const SizedBox(height: 10),
         lastupdate
       ],

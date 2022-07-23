@@ -1,52 +1,35 @@
 import 'package:flutter/material.dart';
-import 'package:telicznik/Meters/MeterManager.dart';
 
 import 'package:fl_chart/fl_chart.dart';
+import 'package:telicznik/charts/charts_style.dart';
 
-import 'charts_style.dart';
+import 'charts_data.dart';
 
-class LineChartWidget extends StatelessWidget {
+class chart_template extends StatelessWidget {
   //final List<PricePoint> points;
-
-  const LineChartWidget({Key? key}) : super(key: key);
-
-  static List<FlSpot> createSampleData() {
-    final List<FlSpot> data = [];
-
-    MeterManager.getCurrentMeter().MonthlyUsage.forEach((value) {
-      String month = value.split(';')[0];
-      String sum = value.split(';')[1];
-
-      data.add(FlSpot(double.parse(month), double.parse(sum)));
-    });
-    return data;
-  }
-
-  static List<FlSpot> createSampleData1() {
-    final List<FlSpot> data = [];
-
-    MeterManager.getCurrentMeter().MonthlyGeneration.forEach((value) {
-      String month = value.split(';')[0];
-      String sum = value.split(';')[1];
-
-      data.add(FlSpot(double.parse(month), double.parse(sum)));
-    });
-    return data;
-  }
+  final String time;
+  final List<FlSpot> datausage;
+  final List<FlSpot> datageneration;
+  const chart_template(
+      {Key? key,
+      required this.time,
+      required this.datausage,
+      required this.datageneration})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-        padding: EdgeInsets.only(top: 20, right: 20),
+        padding: const EdgeInsets.only(top: 20, right: 20),
         height: 200,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
           color: Theme.of(context).primaryColor,
           boxShadow: [
             BoxShadow(
-              offset: Offset(0, 4),
+              offset: const Offset(0, 4),
               blurRadius: 30,
-              color: Color.fromARGB(255, 236, 0, 217).withOpacity(.16),
+              color: const Color.fromARGB(255, 236, 0, 217).withOpacity(.16),
             ),
           ],
         ),
@@ -67,7 +50,8 @@ class LineChartWidget extends StatelessWidget {
                       //     double maxValue,
                       //     SideTitles sideTitles,
                       //     double appliedInterval,
-                      //     double value) {
+                      //     double value)
+                      // {
                       //   if (value == maxValue) return false;
                       //   return true;
                       // },
@@ -80,17 +64,19 @@ class LineChartWidget extends StatelessWidget {
                 ),
                 lineBarsData: [
                   LineChartBarData(
-                    spots: createSampleData(),
+                    spots: datausage,
                     color: chartstyles.usage,
                     isCurved: false,
-                    belowBarData:
-                        BarAreaData(show: true, color: chartstyles.usage),
+                    belowBarData: BarAreaData(
+                      show: true,
+                      color: chartstyles.usage,
+                    ),
                     dotData: FlDotData(
                       show: false,
                     ),
                   ),
                   LineChartBarData(
-                    spots: createSampleData1(),
+                    spots: datageneration,
                     color: chartstyles.generation,
                     belowBarData: BarAreaData(
                       show: true,
@@ -107,45 +93,3 @@ class LineChartWidget extends StatelessWidget {
         ));
   }
 }
-
-// SideTitles get _bottomTitles => SideTitles(
-//       showTitles: true,
-//       reservedSize: 22,
-//       margin: 10,
-//       interval: 1,
-//       getTextStyles: (context, value) => const TextStyle(
-//         color: Colors.blueGrey,
-//         fontWeight: FontWeight.bold,
-//         fontSize: 12,
-//       ),
-    //   getTitles: (value) {
-    //     switch (value.toInt()) {
-    //       case 1:
-    //         return 'Sty';
-    //       case 2:
-    //         return 'Lut';
-    //       case 3:
-    //         return 'Mar';
-    //       case 4:
-    //         return 'Kwi';
-    //       case 5:
-    //         return 'Maj';
-    //       case 6:
-    //         return 'Cze';
-    //       case 7:
-    //         return 'Lip';
-
-    //       case 8:
-    //         return 'Sie';
-    //       case 9:
-    //         return 'Wrz';
-    //       case 10:
-    //         return 'Paź';
-    //       case 11:
-    //         return 'Lis';
-    //       case 12:
-    //         return 'Gru';
-    //     }
-    //     return '';
-    //   },
-    // );

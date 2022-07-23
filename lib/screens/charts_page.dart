@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:telicznik/Meters/MeterManager.dart';
-import 'package:telicznik/charts/daily_chart.dart';
-import 'package:telicznik/charts/monthly_chart.dart';
-import 'package:telicznik/charts/hourly_chart.dart';
+import 'package:telicznik/charts/chart_template.dart';
+import 'package:telicznik/charts/charts_data.dart';
 import 'package:telicznik/drawer.dart';
 import 'package:month_year_picker/month_year_picker.dart';
 
@@ -30,7 +29,7 @@ class _ChartsPage extends State<ChartsPage> {
       //initialEntryMode: DatePickerEntryMode.calendarOnly
     );
     setState(() {
-      selectedMonth = picked!;
+      if (picked != null) selectedMonth = picked;
     });
   }
 
@@ -43,27 +42,41 @@ class _ChartsPage extends State<ChartsPage> {
         initialDatePickerMode: DatePickerMode.day,
         initialEntryMode: DatePickerEntryMode.calendarOnly);
     setState(() {
-      selectedDay = picked!;
+      if (picked != null) selectedDay = picked;
       print(
           "${selectedDay.year}-${selectedDay.month < 10 ? selectedDay.month.toString().padLeft(2, '0') : selectedDay.month}-${selectedDay.day < 10 ? selectedDay.day.toString().padLeft(2, '0') : selectedDay.day}");
     });
   }
 
-  _selectYear(BuildContext context) async {
-    return YearPicker(
-      firstDate: DateTime.parse(MeterManager.getCurrentMeter().DateFrom),
-      lastDate: DateTime.parse(MeterManager.getCurrentMeter().DateTo),
-      initialDate: DateTime.now(),
-      // save the selected date to _selectedDate DateTime variable.
-      // It's used to set the previous selected date when
-      // re-showing the dialog.
-      selectedDate: selectedYear,
-      onChanged: (DateTime dateTime) {
-        // close the dialog when year is selected.
-        Navigator.pop(context);
+  _selectYear(context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Wybierz rok"),
+          content: Container(
+            // Need to use container to add size constraint.
+            width: 300,
+            height: 300,
+            child: YearPicker(
+              firstDate:
+                  DateTime.parse(MeterManager.getCurrentMeter().DateFrom),
+              lastDate: DateTime.parse(MeterManager.getCurrentMeter().DateTo),
+              initialDate: DateTime.now(),
+              // save the selected date to _selectedDate DateTime variable.
+              // It's used to set the previous selected date when
+              // re-showing the dialog.
+              selectedDate: selectedYear,
+              onChanged: (DateTime dateTime) {
+                // close the dialog when year is selected.
+                Navigator.pop(context);
 
-        // Do something with the dateTime selected.
-        // Remember that you need to use dateTime.year to get the year
+                // Do something with the dateTime selected.
+                // Remember that you need to use dateTime.year to get the year
+              },
+            ),
+          ),
+        );
       },
     );
   }
@@ -81,9 +94,9 @@ class _ChartsPage extends State<ChartsPage> {
         color: Theme.of(context).primaryColor,
         boxShadow: [
           BoxShadow(
-            offset: Offset(0, 4),
+            offset: const Offset(0, 4),
             blurRadius: 30,
-            color: Color.fromARGB(255, 236, 0, 217).withOpacity(.16),
+            color: const Color.fromARGB(255, 236, 0, 217).withOpacity(.16),
           ),
         ],
       ),
@@ -107,9 +120,9 @@ class _ChartsPage extends State<ChartsPage> {
                     tryb = "h";
                   });
                 },
-                child: Text('Godzinny'),
+                child: const Text('Godzinny'),
               ),
-              SizedBox(width: 10),
+              const SizedBox(width: 10),
               TextButton(
                 style: ButtonStyle(
                   foregroundColor: MaterialStateProperty.all<Color>(
@@ -124,9 +137,9 @@ class _ChartsPage extends State<ChartsPage> {
                     tryb = "d";
                   });
                 },
-                child: Text('Dzienny'),
+                child: const Text('Dzienny'),
               ),
-              SizedBox(width: 10),
+              const SizedBox(width: 10),
               TextButton(
                 style: ButtonStyle(
                   foregroundColor: MaterialStateProperty.all<Color>(
@@ -141,9 +154,9 @@ class _ChartsPage extends State<ChartsPage> {
                     tryb = "m";
                   });
                 },
-                child: Text('Miesięczny'),
+                child: const Text('Miesięczny'),
               ),
-              SizedBox(width: 10),
+              const SizedBox(width: 10),
               TextButton(
                 style: ButtonStyle(
                     foregroundColor: MaterialStateProperty.all<Color>(
@@ -157,7 +170,7 @@ class _ChartsPage extends State<ChartsPage> {
                     tryb = "z";
                   });
                 },
-                child: Text('Zakres'),
+                child: const Text('Zakres'),
               )
             ],
           ),
@@ -167,10 +180,10 @@ class _ChartsPage extends State<ChartsPage> {
 
     return Scaffold(
       body: Column(
-        children: [SizedBox(height: 40), buttons, GetChart()],
+        children: [const SizedBox(height: 40), buttons, GetChart()],
       ),
       drawer: PublicDrawer(),
-      appBar: PublicAppBar(),
+      appBar: const PublicAppBar(),
     );
   }
 
@@ -196,19 +209,23 @@ class _ChartsPage extends State<ChartsPage> {
           onPressed: () {
             _selectMonth(context);
           },
-          child: Text('Wybierz miesiąc'),
+          child: const Text('Wybierz miesiąc'),
         ),
         Padding(
-          padding: EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(8.0),
           child: Text(
-            "dzienny " + selectedMonth.toString(),
-            style:
-                TextStyle(fontSize: 16.0, color: Color.fromARGB(255, 0, 0, 0)),
+            "dzienny $selectedMonth",
+            style: const TextStyle(
+                fontSize: 16.0, color: const Color.fromARGB(255, 0, 0, 0)),
           ),
         ),
-        daily_chart(
+        chart_template(
             time:
-                "${selectedMonth.year}-${selectedMonth.month < 10 ? selectedMonth.month.toString().padLeft(2, '0') : selectedMonth.month}")
+                "${selectedMonth.year}-${selectedMonth.month < 10 ? selectedMonth.month.toString().padLeft(2, '0') : selectedMonth.month}",
+            datausage: createDailyUsage(
+                "${selectedMonth.year}-${selectedMonth.month < 10 ? selectedMonth.month.toString().padLeft(2, '0') : selectedMonth.month}"),
+            datageneration: createDailyGeneration(
+                "${selectedMonth.year}-${selectedMonth.month < 10 ? selectedMonth.month.toString().padLeft(2, '0') : selectedMonth.month}"))
         //do zmiany
       ],
     );
@@ -224,35 +241,25 @@ class _ChartsPage extends State<ChartsPage> {
           onPressed: () {
             _selectDay(context);
           },
-          child: Text('Wybierz dzień'),
+          child: const Text('Wybierz dzień'),
         ),
         Padding(
-          padding: EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(8.0),
           child: Text(
-            "godzinowy " + selectedDay.toString(),
-            style:
-                TextStyle(fontSize: 16.0, color: Color.fromARGB(255, 0, 0, 0)),
+            "godzinowy $selectedDay",
+            style: const TextStyle(
+                fontSize: 16.0, color: Color.fromARGB(255, 0, 0, 0)),
           ),
         ),
-        hourly_chart(
+        chart_template(
             time:
+                "${selectedDay.year}-${selectedDay.month < 10 ? selectedDay.month.toString().padLeft(2, '0') : selectedDay.month}-${selectedDay.day < 10 ? selectedDay.day.toString().padLeft(2, '0') : selectedDay.day}",
+            datausage: createHourlyUsage(
                 "${selectedDay.year}-${selectedDay.month < 10 ? selectedDay.month.toString().padLeft(2, '0') : selectedDay.month}-${selectedDay.day < 10 ? selectedDay.day.toString().padLeft(2, '0') : selectedDay.day}"),
+            datageneration: createHourlyGeneration(
+                "${selectedDay.year}-${selectedDay.month < 10 ? selectedDay.month.toString().padLeft(2, '0') : selectedDay.month}-${selectedDay.day < 10 ? selectedDay.day.toString().padLeft(2, '0') : selectedDay.day}")),
       ],
     );
-  }
-
-  handleReadOnlyInputClick(context) {
-    Container(
-        width: MediaQuery.of(context).size.width,
-        child: YearPicker(
-          selectedDate: DateTime(1997),
-          firstDate: DateTime(1995),
-          lastDate: DateTime.now(),
-          onChanged: (val) {
-            print(val);
-            Navigator.pop(context);
-          },
-        ));
   }
 
   monthly() {
@@ -263,11 +270,14 @@ class _ChartsPage extends State<ChartsPage> {
             foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
           ),
           onPressed: () {
-            handleReadOnlyInputClick(context);
+            _selectYear(context);
           },
-          child: Text('Wybierz rok'),
+          child: const Text('Wybierz rok'),
         ),
-        LineChartWidget()
+        chart_template(
+            time: "",
+            datausage: createMonthlyUsage(),
+            datageneration: createMonthlyGeneration())
       ],
     );
   }
